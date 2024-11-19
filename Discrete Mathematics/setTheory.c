@@ -1,66 +1,70 @@
-// Este codigo va a ser utilizado para la implementacion de la teoria de
-// conjuntos en C usando operaciones de bits, va a recibir dos conjuntos y va a
-// realizar las operaciones de union, interseccion, diferencia, diferencia
-// simetrica y complemento. Cada bit va a representar un elemento del conjunto\n
-// Por ejemplo, el conjunto {0, 2, 3} se va a representar como
-// 00000000000000000000000000001110
+// TODO: Falta agregar la posibilidad de ingresar los conjuntos (El universo, el
+// primero y el segundo), donde el universo solo se especifica la cantidad de
+// elementos que contara con , el primero y segundo, se leera en texto y se hara
+// la transformacion para pasarlo a un numero donde se sume los 'elementos del
+// conjunto'
 
-// Include                                                                    //
+// Defines
+#define MAX_LIMIT 64
+
+// Includes
 #include <math.h>
 #include <stdio.h>
 
 // NOTE: Functions
 
 // Union
-void Union(unsigned short set1, unsigned short set2) {
+void Union(unsigned long set1, unsigned long set2) {
   // Operation
-  unsigned short unionSet = set1 | set2;
+  unsigned long unionSet = set1 | set2;
 
   // Output
-  printf("La union de los conjuntos es: %d\n", unionSet);
+  printf("La union de los conjuntos es: %ld\n", unionSet);
 }
 
 // Intersection
-void Intersection(unsigned short set1, unsigned short set2) {
+void Intersection(unsigned long set1, unsigned long set2) {
   // Operation
-  unsigned short intersectionSet = set1 & set2;
+  unsigned long intersectionSet = set1 & set2;
 
   // Output
-  printf("La interseccion de los conjuntos es: %d\n", intersectionSet);
+  printf("La interseccion de los conjuntos es: %ld\n", intersectionSet);
 }
 
 // Difference
-void Difference(unsigned short set1, unsigned short set2) {
+void Difference(unsigned long set1, unsigned long set2) {
   // Operation
-  unsigned short differenceSet = set1 & ~set2;
+  unsigned long differenceSet = set1 & ~set2;
 
   // Output
-  printf("La diferencia de los conjuntos es: %d\n", differenceSet);
+  printf("La diferencia de los conjuntos es: %ld\n", differenceSet);
 }
 
 // Symmetric Difference
-void SymmetricDifference(unsigned short set1, unsigned short set2) {
+void SymmetricDifference(unsigned long set1, unsigned long set2) {
   // Operation
-  unsigned short symmetricDifferenceSet = set1 ^ set2;
+  unsigned long symmetricDifferenceSet = set1 ^ set2;
 
   // Output
-  printf("La diferencia simetrica de los conjuntos es: %d\n",
+  printf("La diferencia simetrica de los conjuntos es: %ld\n",
          symmetricDifferenceSet);
 }
 
 // Complement
-void Complement(unsigned short universe, unsigned short set) {
+void Complement(unsigned long universe, unsigned long set) {
   // Operation
-  unsigned short complementSet = universe & ~set;
+  unsigned long complementSet = universe & ~set;
 
   // Output
-  printf("El complemento del conjunto %d es: %d\n", set, complementSet);
+  printf("El complemento del conjunto %ld es: %ld\n", set, complementSet);
 }
 
 // Main Function
 int main(int argc, char *argv[]) {
   // Variables
-  unsigned short universe = pow(2, 16) - 1, set1 = 7, set2 = 242;
+  int elements;
+  char conjunto1[MAX_LIMIT], conjunto2[MAX_LIMIT];
+  unsigned long universe, set1 = 7, set2 = 242;
   // set1 = 00000000000000000000000000000111=7
   // set2 = 00000000000000000000000011110010=242
 
@@ -69,7 +73,25 @@ int main(int argc, char *argv[]) {
   printf("Los conjuntos van a ser representados por numeros enteros (Z)\n");
 
   // Input
-  // printf("Ingrese el primer conjunto: ");
+  // Universe Set
+  printf(
+      "Ingrese los elementos del conjunto (universo siendo el maximo 64 )\n");
+  printf("-> ");
+  scanf("%d", &elements);
+  universe = pow(2, elements) - 1;
+  printf("El conjunto universo es: %ld \n", universe);
+
+  // First Set
+  printf("Ingresa los elementos del primer conjuento separados por comas\n");
+  printf("-> ");
+  fgets(conjunto1, MAX_LIMIT, stdin);
+  printf("Ingresaste: %s\n", conjunto1);
+
+  // Second Set
+  printf("Ingresa los elementos del primer conjuento separados por comas\n");
+  printf("-> ");
+  fgets(conjunto2, MAX_LIMIT, stdin);
+  printf("Ingresaste: %s\n", conjunto2);
 
   // Function Calls
   // Union
@@ -80,6 +102,7 @@ int main(int argc, char *argv[]) {
 
   // Difference
   Difference(set1, set2);
+  Difference(set2, set1);
 
   // Symmetric Difference
   SymmetricDifference(set1, set2);
