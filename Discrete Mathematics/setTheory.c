@@ -1,18 +1,13 @@
-// TODO: Falta agregar la posibilidad de ingresar los conjuntos (El universo, el
-// primero y el segundo), donde el universo solo se especifica la cantidad de
-// elementos que contara con , el primero y segundo, se leera en texto y se hara
-// la transformacion para pasarlo a un numero donde se sume los 'elementos del
-// conjunto'
-
-// Defines
+// Define
 #define MAX_LIMIT 64
 
 // Includes
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-// NOTE: Functions
-
+// Functions
 // Union
 void Union(unsigned long set1, unsigned long set2) {
   // Operation
@@ -32,12 +27,12 @@ void Intersection(unsigned long set1, unsigned long set2) {
 }
 
 // Difference
-void Difference(unsigned long set1, unsigned long set2) {
+void Difference(unsigned long set1, unsigned long set2,char A, char B) {
   // Operation
   unsigned long differenceSet = set1 & ~set2;
 
   // Output
-  printf("La diferencia de los conjuntos es: %ld\n", differenceSet);
+  printf("La diferencia de los conjuntos (%c - %c) es: %ld\n",A,B,differenceSet);
 }
 
 // Symmetric Difference
@@ -51,65 +46,132 @@ void SymmetricDifference(unsigned long set1, unsigned long set2) {
 }
 
 // Complement
-void Complement(unsigned long universe, unsigned long set) {
+void Complement(unsigned long universe, unsigned long set, char A) {
   // Operation
   unsigned long complementSet = universe & ~set;
 
   // Output
-  printf("El complemento del conjunto %ld es: %ld\n", set, complementSet);
+  printf("El complemento del conjunto %c es: %ld\n", A, complementSet);
+}
+
+// Universe Set Input
+void UniverseSetInput(unsigned long *universe) {
+  // Variables
+  int elements;
+
+  // Input
+  printf("Ingrese los elementos del conjunto (universo siendo el maximo 64 )\n");
+  printf("-> ");
+  scanf("%d", &elements);
+
+  // Validation
+  while(elements > 64|| elements < 0){ 
+    printf("El numero de elementos no puede ser mayor a 64\n");
+    printf("Ingrese los elementos del conjunto (universo siendo el maximo 64 )\n");
+    printf("-> ");
+    scanf("%d", &elements);
+  }
+
+  // Operation
+  *universe = pow(2, elements) - 1;
+}
+
+
+// INFO: Esta funcion no se esta utilizando, se cambio por setInputConversion (No falla pero no se esta utilizando y le falta validacion)
+
+/*int SetInputConversion(char *set) {
+  // Variables
+  int setNumber = 0, i = 0;
+
+  // Operation
+  while (set[i] != '\0') {
+    if (set[i] == ',') {
+	i++;
+	continue;
+    }
+    setNumber += pow(2, set[i] - '0');
+    i++;
+  }
+
+  return setNumber;
+}
+*/
+
+//Set Input Conversion
+int setInputConversion(char *texto){
+  // Variables
+	unsigned long suma = 0;
+	char *ptr = strtok(texto, ",");
+
+  // Operation
+	while(ptr != NULL){
+		int num = atoi(ptr);
+		// Validacion
+		if(num < 0 || num > 63){
+			printf("El numero %d no es valido\n", num);
+			exit(1);
+		}
+		suma += pow(2, num);
+		ptr = strtok(NULL, ",");
+	}
+
+	return suma;
+  }
+
+// Function Caller
+void functionCaller(unsigned long set1, unsigned long set2, unsigned long universe, char nomConjunto1, char nomConjunto2){
+	// Function Calls
+	// Union  
+	Union(set1, set2);
+
+	// Intersection
+	Intersection(set1, set2);
+
+	// Difference
+	Difference(set1, set2, nomConjunto1, nomConjunto2);
+	Difference(set2, set1, nomConjunto2, nomConjunto1);
+
+	// Symmetric difference
+	SymmetricDifference(set1, set2);
+
+	// Complement
+	Complement(universe, set1, nomConjunto1);
+	Complement(universe, set2, nomConjunto2);
+
 }
 
 // Main Function
-int main(int argc, char *argv[]) {
+int main(void) {
   // Variables
-  int elements;
   char conjunto1[MAX_LIMIT], conjunto2[MAX_LIMIT];
-  unsigned long universe, set1 = 7, set2 = 242;
-  // set1 = 00000000000000000000000000000111=7
-  // set2 = 00000000000000000000000011110010=242
+  unsigned long universe, set1, set2;
+  char nomConjunto1, nomConjunto2;
 
   // Mensaje de bienvenida
   printf("Este programa va a realizar operaciones de conjuntos\n");
-  printf("Los conjuntos van a ser representados por numeros enteros (Z)\n");
+  printf("Los conjuntos van a ser representados por numeros enteros (Z con el 0 incluido)\n");
 
   // Input
   // Universe Set
-  printf(
-      "Ingrese los elementos del conjunto (universo siendo el maximo 64 )\n");
-  printf("-> ");
-  scanf("%d", &elements);
-  universe = pow(2, elements) - 1;
-  printf("El conjunto universo es: %ld \n", universe);
+  UniverseSetInput(&universe);
 
   // First Set
-  printf("Ingresa los elementos del primer conjuento separados por comas\n");
+  printf("Ingresa los elementos del primer conjunto (A) separados por comas (De 0 a 63)\n");
   printf("-> ");
-  fgets(conjunto1, MAX_LIMIT, stdin);
-  printf("Ingresaste: %s\n", conjunto1);
+  scanf(" %s", conjunto1);
+  set1 = setInputConversion(conjunto1);
+  nomConjunto1 = 'A';
 
   // Second Set
-  printf("Ingresa los elementos del primer conjuento separados por comas\n");
+  printf("Ingresa los elementos del segundo conjunto (B) separados por comas (De 0 a 63)\n");
   printf("-> ");
-  fgets(conjunto2, MAX_LIMIT, stdin);
-  printf("Ingresaste: %s\n", conjunto2);
+  scanf(" %s", conjunto2);
+  set2 = setInputConversion(conjunto2);
+  nomConjunto2 = 'B';
 
-  // Function Calls
-  // Union
-  Union(set1, set2);
+  // Function Caller
+  functionCaller(set1, set2, universe, nomConjunto1, nomConjunto2);
 
-  // Intersection
-  Intersection(set1, set2);
-
-  // Difference
-  Difference(set1, set2);
-  Difference(set2, set1);
-
-  // Symmetric Difference
-  SymmetricDifference(set1, set2);
-
-  // Complement
-  Complement(universe, set1);
-  Complement(universe, set2);
-
+  // Return
   return 0;
 }
