@@ -110,11 +110,11 @@ int setInputConversion(char *texto) {
   while (ptr != NULL) {
     int num = atoi(ptr);
     // Validacion
-    if (num < 0 || num > 63) {
+    if (num < 1 || num > 64) {
       printf("El numero %d no es valido\n", num);
       exit(1);
     }
-    suma += pow(2, num);
+    suma += pow(2, num-1);
     ptr = strtok(NULL, ",");
   }
 
@@ -153,8 +153,7 @@ int main(void) {
 
   // Mensaje de bienvenida
   printf("Este programa va a realizar operaciones de conjuntos\n");
-  printf("Los conjuntos van a ser representados por numeros enteros (Z con el "
-         "0 incluido)\n");
+  printf("Los conjuntos van a ser representados por numeros enteros positivos (Z+)\n");
 
   // Input
   // Universe Set
@@ -162,7 +161,7 @@ int main(void) {
 
   // First Set
   printf("Ingresa los elementos del primer conjunto (A) separados por comas "
-         "(De 0 a 63)\n");
+         "(De 1 a 64)\n");
   printf("-> ");
   scanf(" %s", conjunto1);
   set1 = setInputConversion(conjunto1);
@@ -170,7 +169,7 @@ int main(void) {
 
   // Second Set
   printf("Ingresa los elementos del segundo conjunto (B) separados por comas "
-         "(De 0 a 63)\n");
+         "(De 1 a 64)\n");
   printf("-> ");
   scanf(" %s", conjunto2);
   set2 = setInputConversion(conjunto2);

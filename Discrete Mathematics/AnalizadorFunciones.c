@@ -10,52 +10,36 @@
 
 // Definitions
 // Funcion: Relacion entre dos conjuntos de tal forma que a cada elemento del
-// primer conjunto le corresponde un unico elemento del segundo conjunto, para que se cumpla una funcion f(x) = dom, codom y grafica de for 
-// grafica de f = {(x, f(x)) | x pertenece a dom}
-// Inyectividad: f(x) = f(y) => x = y || f(x) != f(y) => x != y
-// Suprayectividad: f(x) = y
-// Biyectividad: Inyectividad + Sobreyectividad
+// primer conjunto le corresponde un unico elemento del segundo conjunto, para
+// que se cumpla una funcion f(x) = dom, codom y grafica de for grafica de f =
+// {(x, f(x)) | x pertenece a dom} Inyectividad: f(x) = f(y) => x = y || f(x) !=
+// f(y) => x != y Suprayectividad: f(x) = y Biyectividad: Inyectividad +
+// Sobreyectividad
 
 // Functions
-// Funcion que recibe la expresion algebraica y la transforma en una
-// funcion(Operable)
-void ExpresionAlgebraica(char *funcion) {
-  printf("Ingrese la expresion algebraica: ");
-  scanf("%s", funcion);
-  printf("La expresion algebraica ingresada es: %s\n", funcion);
-};
-
-// Funcion que recibe la funcion y verifica si es una funcion
-bool CondicionFuncion(char *funcion) {
+// Funcion que verifica si es una funcion usando dominio, codominio y grafica
+void CondicionFuncion(unsigned int *dominio, unsigned int *codominio,
+			     unsigned int *grafica) {
   // Variables
-  bool cumple;
 
   // Verificacion
 
-  // return
-  return cumple;
 };
 
 // Funcion que recibe la funcion y verifica si es inyectiva
-bool CondicionInyectividad(char *funcion) {
+void CondicionInyectividad(char *funcion) {
   // Variables
-  bool cumple;
 
   // Verificacion
 
-  // return
-  return cumple;
 };
 
 // Funcion que recibe la funcion y verifica si es suprayectiva
-bool CondicionSuprayectividad(char *funcion) {
+void CondicionSuprayectividad(char *funcion) {
   // Variables
-  bool cumple;
 
   // Verificacion
 
-  // return
-  return cumple;
 };
 
 // Funcion que recibe la funcion y verifica si es biyectiva
@@ -64,11 +48,11 @@ void CondicionBiyectividad(char *funcion) {
   bool condicionInicial, cumpleInyectividad, cumpleSuprayectividad;
 
   // Main Condition
-  condicionInicial = CondicionFuncion(funcion);
+  
 
   while (condicionInicial) {
-    cumpleInyectividad = CondicionInyectividad(funcion);
-    cumpleSuprayectividad = CondicionSuprayectividad(funcion);
+    CondicionInyectividad(funcion);
+    CondicionSuprayectividad(funcion);
 
     if (cumpleInyectividad && cumpleSuprayectividad) {
       printf("La funcion cumple con las condiciones de inyectividad y "
@@ -92,11 +76,15 @@ void CondicionBiyectividad(char *funcion) {
 // elementos
 void SetConjunto(char *conjunto) {};
 
+// Funcion que recibe la grafica de una funcion y la transforma en un conjunto
+// de elementos
+void SetGrafica(char *grafica) {};
+
 // Main Function
 int main(void) {
   // Variables
   char expresion[EXPRESSION], dominioSTR[MAXSetSize], codominioSTR[MAXSetSize];
-  int dominio[MAXSetSize], codominio[MAXSetSize];
+  int dominio[MAXSetSize], codominio[MAXSetSize], grafica[MAXSetSize];
 
   // Bienvenida
   printf("Este programa se encarga de recibir una expresion.\n");
