@@ -114,7 +114,7 @@ int setInputConversion(char *texto) {
       printf("El numero %d no es valido\n", num);
       exit(1);
     }
-    suma += pow(2, num-1);
+    suma |=(long) pow(2, num);
     ptr = strtok(NULL, ",");
   }
 
