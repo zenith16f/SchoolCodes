@@ -68,7 +68,7 @@ void UniverseSetInput(unsigned long *universe) {
 
   // Validation
   while (elements > 64 || elements < 0) {
-    printf("El numero de elementos no puede ser mayor a 64\n");
+    printf("El numero de elementos no puede ser mayor a 64 o menor a 0\n");
     printf(
         "Ingrese los elementos del conjunto (universo siendo el maximo 64 )\n");
     printf("-> ");
@@ -110,7 +110,7 @@ int setInputConversion(char *texto) {
   while (ptr != NULL) {
     int num = atoi(ptr);
     // Validacion
-    if (num < 1 || num > 64) {
+    if (num < 0 || num > 63) {
       printf("El numero %d no es valido\n", num);
       exit(1);
     }
@@ -161,7 +161,7 @@ int main(void) {
 
   // First Set
   printf("Ingresa los elementos del primer conjunto (A) separados por comas "
-         "(De 1 a 64)\n");
+         "(De 0 a 63)\n");
   printf("-> ");
   scanf(" %s", conjunto1);
   set1 = setInputConversion(conjunto1);
@@ -169,7 +169,7 @@ int main(void) {
 
   // Second Set
   printf("Ingresa los elementos del segundo conjunto (B) separados por comas "
-         "(De 1 a 64)\n");
+         "(De 0 a 63)\n");
   printf("-> ");
   scanf(" %s", conjunto2);
   set2 = setInputConversion(conjunto2);
