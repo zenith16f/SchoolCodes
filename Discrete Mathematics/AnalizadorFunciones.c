@@ -2,6 +2,7 @@
 #define MAXSetSize 64
 #define MAXGraficaSize 128
 #define MAXTuplas MAXGraficaSize / 2
+#define MAXElementos 100
 
 // Includes
 #include <stdbool.h>
@@ -21,6 +22,8 @@
 // Funcion que verifica si es una funcion usando dominio, codominio y grafica
 void CondicionFuncion(unsigned int *dominio, unsigned int *codominio,
                       unsigned int *grafica, bool *cumple) {
+	//NOTE: Se va a hacer un mapeo de los elementos del dominio y la grafica donde se checara si estan solo 1 vez en la grafica, si no estan o estan mas de una vez no es funcion
+
   // Variables
 
   // Verificacion
@@ -29,20 +32,43 @@ void CondicionFuncion(unsigned int *dominio, unsigned int *codominio,
 
 // Funcion que recibe la funcion y verifica si es inyectiva
 void CondicionInyectividad(unsigned int *dominio, unsigned int *codominio,
-                           unsigned int *grafica, bool *cumple) {
+                           unsigned int *grafica, bool *cumple,
+                           int numeroPares) {
   // Variables
+  int visitados[MAXElementos] = {0};
 
   // Verificacion
+  for (int i = 0; i < numeroPares; i++) {
+    int y = *(grafica + i * 2 + 1);
+    if (visitados[y] == 1) {
+      *cumple = 0;
+    }
+    visitados[y] = 1;
+  }
 
+  *cumple = 1; //
 };
 
 // Funcion que recibe la funcion y verifica si es suprayectiva
 void CondicionSuprayectividad(unsigned int *dominio, unsigned int *codominio,
-                              unsigned int *grafica, bool *cumple) {
+                              unsigned int *grafica, bool *cumple,
+                              int numeroPares) {
   // Variables
+  int visitados[MAXElementos] = {0};
 
   // Verificacion
+  for (int i = 0; i < numeroPares; i++) {
+    visitados[*(grafica + i * 2 + 1)] = 1;
+  }
 
+  // Verificar si todos los elementos del codominio han sido visitados
+  for (int i = 0; i < MAXElementos; i++) {
+    if (*(codominio + i) == 1 && visitados[i] == 0) {
+      *cumple = false;
+    }
+  }
+
+  *cumple = true;
 };
 
 // Funcion que recibe la funcion y verifica si es biyectiva
@@ -50,14 +76,16 @@ void CondicionBiyectividad(unsigned int *dominio, unsigned int *codominio,
                            unsigned int *grafica) {
   // Variables
   bool cumpleFuncion, cumpleInyectividad, cumpleSuprayectividad;
+  int numeroPares = sizeof(grafica) / sizeof(grafica[0]);
 
   // Main Condition
   CondicionFuncion(dominio, codominio, grafica, &cumpleFuncion);
 
   while (cumpleFuncion) {
-    CondicionInyectividad(dominio, codominio, grafica, &cumpleInyectividad);
+    CondicionInyectividad(dominio, codominio, grafica, &cumpleInyectividad,
+                          numeroPares);
     CondicionSuprayectividad(dominio, codominio, grafica,
-                             &cumpleSuprayectividad);
+                             &cumpleSuprayectividad, numeroPares);
 
     if (cumpleInyectividad && cumpleSuprayectividad) {
       printf("La funcion cumple con las condiciones de inyectividad y "
@@ -130,7 +158,8 @@ int main(void) {
   // Variables
   char dominioSTR[MAXSetSize], codominioSTR[MAXSetSize],
       graficaSTR[MAXGraficaSize];
-  int numeroElementosDom, numeroElementosCodom, numeroElementosGrafica, graficaSet[MAXTuplas][2];
+  int numeroElementosDom, numeroElementosCodom, numeroElementosGrafica,
+      graficaSet[MAXTuplas][2];
 
   // Bienvenida
   printf("Este programa se encarga de recibir una expresion.\n");
@@ -154,30 +183,7 @@ int main(void) {
          "los enteros positivos): ");
   scanf(" %s", graficaSTR);
 
-  SetGrafica(graficaSTR, graficaSet,&numeroElementosGrafica);
-
-  // Debug
-  printf("El dominio de la funcion en txt es: %s\n", dominioSTR);
-  printf("El codominio de la funcion en txt es: %s\n", codominioSTR);
-  printf("La grafica de la funcion en txt es: %s\n", graficaSTR);
-
-  printf("El dominio (arreglo) contiene %d elementos:\n", numeroElementosDom);
-  for (int i = 0; i < numeroElementosDom; i++) {
-    printf("%d ", dominio[i]);
-  }
-  printf("\n");
-
-  printf("El codominio (arreglo) contiene %d elementos:\n",
-         numeroElementosCodom);
-  for (int i = 0; i < numeroElementosCodom; i++) {
-    printf("%d ", codominio[i]);
-  }
-  printf("\n");
-
-   printf("Se han creado %d tuplas:\n", numeroElementosGrafica);
-    for (int i = 0; i < numeroElementosGrafica; i++) {
-        printf("(%d, %d)\n", graficaSet[i][0], graficaSet[i][1]);
-    }
+  SetGrafica(graficaSTR, graficaSet, &numeroElementosGrafica);
 
   // Biyectividad Call (This function call the other functions)
   // CondicionBiyectividad(expresion);
