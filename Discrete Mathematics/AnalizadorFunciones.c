@@ -10,98 +10,127 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Definitions
-// Funcion: Relacion entre dos conjuntos de tal forma que a cada elemento del
-// primer conjunto le corresponde un unico elemento del segundo conjunto, para
-// que se cumpla una funcion f(x) = dom, codom y grafica de for grafica de f =
-// {(x, f(x)) | x pertenece a dom} Inyectividad: f(x) = f(y) => x = y || f(x) !=
-// f(y) => x != y Suprayectividad: f(x) = y Biyectividad: Inyectividad +
-// Sobreyectividad
-
 // Functions
-// Funcion que verifica si es una funcion usando dominio, codominio y grafica
-void CondicionFuncion(unsigned int *dominio, unsigned int *codominio,
-                      unsigned int *grafica, bool *cumple) {
-	//NOTE: Se va a hacer un mapeo de los elementos del dominio y la grafica donde se checara si estan solo 1 vez en la grafica, si no estan o estan mas de una vez no es funcion
+// Funcion que recibe la funcion y verifica si es funcion o no. Usando la
+// definicon de existencialismo y unicidad
+int CondicionFuncion(int dominio[MAXSetSize], int grafica[MAXSetSize][2],
+                     int numeroPares) {
+  int visitados[MAXElementos] = {0};
+  int todosVisitados[MAXElementos] = {0};
 
-  // Variables
+  // Marcar los elementos del dominio que aparecen en la relación
+  for (int i = 0; i < numeroPares; i++) {
+    int x = grafica[i][0];
+    todosVisitados[x] = 1;
+  }
 
-  // Verificacion
+  // Verificar unicidad y existencialidad simultáneamente
+  for (int i = 0; i < numeroPares; i++) {
+    int x = grafica[i][0];
+    int y = grafica[i][1];
+    if (visitados[y] == 1) {
+      return 0;
+    }
+    visitados[y] = 1;
+    todosVisitados[x] = 0;
+  }
 
-};
+  // Verificar existencialidad
+  for (int i = 0; i < MAXElementos; i++) {
+    if (dominio[i] == 1 && todosVisitados[i] == 1) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
 
 // Funcion que recibe la funcion y verifica si es inyectiva
-void CondicionInyectividad(unsigned int *dominio, unsigned int *codominio,
-                           unsigned int *grafica, bool *cumple,
-                           int numeroPares) {
+int CondicionInyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
+                          int grafica[MAXSetSize][2], int numPares) {
   // Variables
-  int visitados[MAXElementos] = {0};
+  static int visitados[MAXElementos] = {0};
 
   // Verificacion
-  for (int i = 0; i < numeroPares; i++) {
-    int y = *(grafica + i * 2 + 1);
+  for (int i = 0; i < numPares; i++) {
+    int y = grafica[i][1];
     if (visitados[y] == 1) {
-      *cumple = 0;
+      return 0;
     }
     visitados[y] = 1;
   }
 
-  *cumple = 1; //
-};
+  return 1;
+}
 
 // Funcion que recibe la funcion y verifica si es suprayectiva
-void CondicionSuprayectividad(unsigned int *dominio, unsigned int *codominio,
-                              unsigned int *grafica, bool *cumple,
-                              int numeroPares) {
+int CondicionSuprayectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
+                             int grafica[MAXSetSize][2], int numPares) {
   // Variables
   int visitados[MAXElementos] = {0};
 
   // Verificacion
-  for (int i = 0; i < numeroPares; i++) {
-    visitados[*(grafica + i * 2 + 1)] = 1;
+  for (int i = 0; i < numPares; i++) {
+    int y = grafica[i][1];
+    visitados[y] = 1;
   }
 
-  // Verificar si todos los elementos del codominio han sido visitados
   for (int i = 0; i < MAXElementos; i++) {
-    if (*(codominio + i) == 1 && visitados[i] == 0) {
-      *cumple = false;
+    if (codominio[i] == 1 && visitados[i] == 0) {
+      return 0;
     }
   }
 
-  *cumple = true;
-};
+  return 1;
+}
 
 // Funcion que recibe la funcion y verifica si es biyectiva
-void CondicionBiyectividad(unsigned int *dominio, unsigned int *codominio,
-                           unsigned int *grafica) {
+void CondicionBiyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
+                           int grafica[MAXSetSize][2]) {
   // Variables
-  bool cumpleFuncion, cumpleInyectividad, cumpleSuprayectividad;
-  int numeroPares = sizeof(grafica) / sizeof(grafica[0]);
+  int cumpleFuncion, cumpleInyectividad, cumpleSuprayectividad;
+  int numeroPares = sizeof(&grafica) / sizeof(grafica[0]);
 
   // Main Condition
-  CondicionFuncion(dominio, codominio, grafica, &cumpleFuncion);
+  cumpleFuncion = CondicionFuncion(dominio, grafica, numeroPares);
+  printf("%d\n", cumpleFuncion);
 
-  while (cumpleFuncion) {
-    CondicionInyectividad(dominio, codominio, grafica, &cumpleInyectividad,
-                          numeroPares);
-    CondicionSuprayectividad(dominio, codominio, grafica,
-                             &cumpleSuprayectividad, numeroPares);
+  if (cumpleFuncion) {
+    cumpleInyectividad =
+        CondicionInyectividad(dominio, codominio, grafica, numeroPares);
+    cumpleSuprayectividad =
+        CondicionSuprayectividad(dominio, codominio, grafica, numeroPares);
+
+    printf("%d ", cumpleInyectividad);
+    printf("%d \n", cumpleSuprayectividad);
 
     if (cumpleInyectividad && cumpleSuprayectividad) {
       printf("La funcion cumple con las condiciones de inyectividad y "
-             "sobreyectividad\n");
-      printf("Por lo tanto la funcion es biyectiva\n");
-    } else {
-      printf("La funcion no cumple con las condiciones de inyectividad y "
-             "sobreyectividad\n");
-      printf("Por lo tanto la funcion no es biyectiva\n");
+             "suprayectividad\n");
+      printf("Por lo tanto tambien es biyectiva\n");
+    }
+
+    if (cumpleInyectividad && !cumpleSuprayectividad) {
+      printf("La funcion cumple con las condiciones de inyectividad pero no "
+             "suprayectividad\n");
+      printf("Por lo tanto no es biyectiva\n");
+    }
+
+    if (!cumpleInyectividad && cumpleSuprayectividad) {
+      printf("La funcion no cumple con las condiciones de inyectividad pero si "
+             "suprayectividad\n");
+      printf("Por lo tanto no es biyectiva\n");
+    }
+
+    if (!cumpleInyectividad && !cumpleSuprayectividad) {
+      printf("La funcion no cumple con las condiciones de inyectividad ni "
+             "suprayectividad\n");
+      printf("Por lo tanto no es biyectiva\n");
     }
   }
 
   if (!cumpleFuncion) {
-    printf("La expresion no es una funcion por lo que no cumple la condicion "
-           "de suprayectividad e inyectividad\n");
-    printf("Por lo tanto no es biyectiva\n");
+    printf("La expresion no es una funcion\n");
   }
 };
 
@@ -119,16 +148,9 @@ int *SetConjunto(char *conjunto, int *numeroElementos) {
     ptr = strtok(NULL, ",");
   }
 
-  // Return
+  // return
   *numeroElementos = i;
   return arregloConjunto;
-};
-
-// Funcion que recibe un conjunto de elementos y lo transforma en un conjunto de
-// tuplas (Array)
-void graficaConjunto(char *conjunto) {
-  // Variables
-  unsigned int conjuntoEx;
 };
 
 // Funcion que recibe la grafica de una funcion y la transforma en un conjunto
@@ -185,8 +207,8 @@ int main(void) {
 
   SetGrafica(graficaSTR, graficaSet, &numeroElementosGrafica);
 
-  // Biyectividad Call (This function call the other functions)
-  // CondicionBiyectividad(expresion);
+  // Biyectividad Call
+  CondicionBiyectividad(dominio, codominio, graficaSet);
 
   return 0;
 }
