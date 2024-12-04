@@ -5,7 +5,6 @@
 #define MAXElementos 100
 
 // Includes
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,31 +13,22 @@
 // Funcion que recibe la funcion y verifica si es funcion o no. Usando la
 // definicon de existencialismo y unicidad
 int CondicionFuncion(int dominio[MAXSetSize], int grafica[MAXSetSize][2],
-                     int numeroPares) {
-  int visitados[MAXElementos] = {0};
-  int todosVisitados[MAXElementos] = {0};
+                     int numeroPares, int numeroDominio) {
+  // Variables
+  int i, j;
+  int contador = 0;
 
-  // Marcar los elementos del dominio que aparecen en la relación
-  for (int i = 0; i < numeroPares; i++) {
-    int x = grafica[i][0];
-    todosVisitados[x] = 1;
-  }
-
-  // Verificar unicidad y existencialidad simultáneamente
-  for (int i = 0; i < numeroPares; i++) {
-    int x = grafica[i][0];
-    int y = grafica[i][1];
-    if (visitados[y] == 1) {
-      return 0;
+  // Verificacion
+  for (i = 0; i < numeroDominio; i++) {
+    for (j = 0; j < numeroPares; j++) {
+      if (grafica[j][0] == dominio[i]) {
+        contador += 1;
+      }
     }
-    visitados[y] = 1;
-    todosVisitados[x] = 0;
-  }
-
-  // Verificar existencialidad
-  for (int i = 0; i < MAXElementos; i++) {
-    if (dominio[i] == 1 && todosVisitados[i] == 1) {
+    if (contador == 0 || contador > 1) {
       return 0;
+    } else {
+      contador = 0;
     }
   }
 
@@ -65,44 +55,48 @@ int CondicionInyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
 
 // Funcion que recibe la funcion y verifica si es suprayectiva
 int CondicionSuprayectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
-                             int grafica[MAXSetSize][2], int numPares) {
-  // Variables
-  int visitados[MAXElementos] = {0};
+                             int grafica[MAXSetSize][2], int numPares,int tamDominio,int tamCodominio) {
+	// Variables
+int cubierto[MAXElementos] = {0};
 
-  // Verificacion
-  for (int i = 0; i < numPares; i++) {
-    int y = grafica[i][1];
-    visitados[y] = 1;
-  }
+    // Verificacion
+    for (int i = 0; i < numPares; i++) {
+        int elementoCodominio = grafica[i][1];
 
-  for (int i = 0; i < MAXElementos; i++) {
-    if (codominio[i] == 1 && visitados[i] == 0) {
-      return 0;
+        for (int j = 0; j < tamCodominio; j++) {
+            if (codominio[j] == elementoCodominio) {
+                cubierto[j] = 1; 
+                break;
+            }
+        }
     }
-  }
 
-  return 1;
+    // Verifica si todos los elementos del codominio fueron cubiertos
+    for (int i = 0; i < tamCodominio; i++) {
+        if (!cubierto[i]) {
+            return 0; 
+        }
+    }
+
+    return 1; 
 }
 
 // Funcion que recibe la funcion y verifica si es biyectiva
 void CondicionBiyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
-                           int grafica[MAXSetSize][2]) {
+                           int grafica[MAXSetSize][2], int *numeroPares,
+                           int *numeroElementosDom, int *numeroElementosCodom) {
   // Variables
   int cumpleFuncion, cumpleInyectividad, cumpleSuprayectividad;
-  int numeroPares = sizeof(&grafica) / sizeof(grafica[0]);
-
   // Main Condition
-  cumpleFuncion = CondicionFuncion(dominio, grafica, numeroPares);
-  printf("%d\n", cumpleFuncion);
+  cumpleFuncion =
+      CondicionFuncion(dominio, grafica, *numeroPares, *numeroElementosDom);
 
   if (cumpleFuncion) {
+    printf("La expresion es una funcion.\n");
     cumpleInyectividad =
-        CondicionInyectividad(dominio, codominio, grafica, numeroPares);
+        CondicionInyectividad(dominio, codominio, grafica, *numeroPares);
     cumpleSuprayectividad =
-        CondicionSuprayectividad(dominio, codominio, grafica, numeroPares);
-
-    printf("%d ", cumpleInyectividad);
-    printf("%d \n", cumpleSuprayectividad);
+        CondicionSuprayectividad(dominio, codominio, grafica, *numeroPares, *numeroElementosDom, *numeroElementosCodom);
 
     if (cumpleInyectividad && cumpleSuprayectividad) {
       printf("La funcion cumple con las condiciones de inyectividad y "
@@ -207,8 +201,9 @@ int main(void) {
 
   SetGrafica(graficaSTR, graficaSet, &numeroElementosGrafica);
 
+
   // Biyectividad Call
-  CondicionBiyectividad(dominio, codominio, graficaSet);
+  CondicionBiyectividad(dominio, codominio, graficaSet,&numeroElementosGrafica, &numeroElementosDom, &numeroElementosCodom);
 
   return 0;
 }
