@@ -3,4 +3,12 @@
 */compiled/
 *.out
 
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ppm
+
 
