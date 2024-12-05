@@ -22,11 +22,7 @@ int CondicionFuncion(uint64_t dominio, int grafica[MAXSetSize][2],
   // Verificacion
   for (i = 0; i < 32 ; i++) {
     if (dominio & (1 << i)) {
-	    printf("i: %d\n", i);
-	    printf("dominio: %lu\n", dominio);
-	    printf("(1 << i): %d\n", (1 << i));
-      for (unsigned long j = 0; j < numeroPares; j++) {
-		printf("Grafica[%lu][0]: %d\n", j, grafica[j][0]);
+      for (int j = 0; j < numeroPares; j++) {
         if (grafica[j][0] == i) {
           contador += 1;
         }
@@ -218,7 +214,6 @@ int main(void) {
   // Debug
 
   // Biyectividad Call
-  printf("Dominio: %lu\n", dominio);
   CondicionBiyectividad(dominio, codominio, graficaSet, &numeroElementosGrafica,
                         &numeroElementosDom, &numeroElementosCodom);
 
