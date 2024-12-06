@@ -15,12 +15,12 @@
 // Funcion que recibe la funcion y verifica si es funcion o no. Usando la
 // definicon de existencialismo y unicidad
 int CondicionFuncion(uint64_t dominio, int grafica[MAXSetSize][2],
-                     int numeroPares ) {
+                     int numeroPares) {
   // Variables
-  int i,contador = 0;
+  int i, contador = 0;
 
   // Verificacion
-  for (i = 0; i < 32 ; i++) {
+  for (i = 0; i < 32; i++) {
     if (dominio & (1 << i)) {
       for (int j = 0; j < numeroPares; j++) {
         if (grafica[j][0] == i) {
@@ -39,68 +39,67 @@ int CondicionFuncion(uint64_t dominio, int grafica[MAXSetSize][2],
 }
 
 // Funcion que recibe la funcion y verifica si es inyectiva
-int CondicionInyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
-                          int grafica[MAXSetSize][2], int numPares) {
+int CondicionInyectividad(uint64_t codominio, int grafica[MAXSetSize][2],
+                          int numPares) {
+
   // Variables
-  static int visitados[MAXElementos] = {0};
+  int contador = 0;
 
   // Verificacion
-  for (int i = 0; i < numPares; i++) {
-    int y = grafica[i][1];
-    if (visitados[y] == 1) {
-      return 0;
-    }
-    visitados[y] = 1;
-  }
-
-  return 1;
-}
-
-// Funcion que recibe la funcion y verifica si es suprayectiva
-int CondicionSuprayectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
-                             int grafica[MAXSetSize][2], int numPares,
-                             int tamDominio, int tamCodominio) {
-  // Variables
-  int cubierto[MAXElementos] = {0};
-
-  // Verificacion
-  for (int i = 0; i < numPares; i++) {
-    int elementoCodominio = grafica[i][1];
-
-    for (int j = 0; j < tamCodominio; j++) {
-      if (codominio[j] == elementoCodominio) {
-        cubierto[j] = 1;
-        break;
+  for (int i = 0; i < 32; i++) {
+    if (codominio & (1 << i)) {
+      for (int j = 0; j < numPares; j++) {
+        if (grafica[j][1] == i) {
+          contador += 1;
+        }
       }
+      if (contador > 1) {
+        return 0; // No es inyectiva
+      }
+      contador = 0;
     }
   }
 
-  // Verifica si todos los elementos del codominio fueron cubiertos
-  for (int i = 0; i < tamCodominio; i++) {
-    if (!cubierto[i]) {
-      return 0;
+  return 1; // Es inyectiva
+}
+// Funcion que recibe la funcion y verifica si es suprayectiva
+int CondicionSuprayectividad(uint64_t codominio, int grafica[MAXSetSize][2],
+                             int numPares) {
+  // Variables
+  int contador = 0;
+
+  // Verificacion
+  for (int i = 0; i < 32; i++) {
+    if (codominio & (1 << i)) {
+      for (int j = 0; j < numPares; j++) {
+        if (grafica[j][1] == i) {
+          contador += 1;
+        }
+      }
+      if (contador == 0) {
+        return 0; // No es suprayectiva
+      }
+      contador = 0;
     }
   }
 
-  return 1;
+  return 1; // Es suprayectiva
 }
 
 // Funcion que recibe la funcion y verifica si es biyectiva
 void CondicionBiyectividad(uint64_t dominio, unsigned long codominio,
-                           int grafica[MAXSetSize][2], int *numeroPares,
-                           int *numeroElementosDom, int *numeroElementosCodom) {
+                           int grafica[MAXSetSize][2], int *numeroPares) {
   // Variables
   int cumpleFuncion, cumpleInyectividad, cumpleSuprayectividad;
   // Main Condition
-  cumpleFuncion =
-      CondicionFuncion(dominio, grafica, *numeroPares);
+  cumpleFuncion = CondicionFuncion(dominio, grafica, *numeroPares);
 
   if (cumpleFuncion) {
     printf("La expresion es una funcion.\n");
-    /*cumpleInyectividad = CondicionInyectividad(dominio, codominio, grafica,
-    *numeroPares); cumpleSuprayectividad =  CondicionSuprayectividad(dominio,
-    codominio, grafica, *numeroPares, *numeroElementosDom,
-    *numeroElementosCodom);
+    cumpleInyectividad =
+        CondicionInyectividad(codominio, grafica, *numeroPares);
+    cumpleSuprayectividad =
+        CondicionSuprayectividad(codominio, grafica, *numeroPares);
 
     if (cumpleInyectividad && cumpleSuprayectividad) {
       printf("La funcion cumple con las condiciones de inyectividad y "
@@ -124,7 +123,7 @@ void CondicionBiyectividad(uint64_t dominio, unsigned long codominio,
       printf("La funcion no cumple con las condiciones de inyectividad ni "
              "suprayectividad\n");
       printf("Por lo tanto no es biyectiva\n");
-    }*/
+    }
   }
 
   if (!cumpleFuncion) {
@@ -136,7 +135,7 @@ void CondicionBiyectividad(uint64_t dominio, unsigned long codominio,
 // bits
 int setInputConversion(char *texto) {
   // Variables
-  unsigned long long suma = 0;
+  uint64_t suma = 0;
   char *ptr = strtok(texto, ",");
 
   // Operation
@@ -183,8 +182,7 @@ int main(void) {
   // Variables
   char dominioSTR[MAXSetSize], codominioSTR[MAXSetSize],
       graficaSTR[MAXGraficaSize];
-  int numeroElementosDom, numeroElementosCodom, numeroElementosGrafica,
-      graficaSet[MAXTuplas][2];
+  int numeroElementosGrafica, graficaSet[MAXTuplas][2];
 
   // Bienvenida
   printf("Este programa se encarga de recibir una expresion.\n");
@@ -201,8 +199,7 @@ int main(void) {
   printf("Ingrese el codominio de la funcion con comas (Elementos maximos 32, "
          "en los enteros positivos): ");
   scanf(" %s", codominioSTR);
-  unsigned long codominio =
-      setInputConversion(codominioSTR);
+  unsigned long codominio = setInputConversion(codominioSTR);
 
   // Grafica Input (Se separa de par en par)
   printf("Ingrese la grafica de la funcion con comas (Elementos maximos 64, en "
@@ -214,8 +211,8 @@ int main(void) {
   // Debug
 
   // Biyectividad Call
-  CondicionBiyectividad(dominio, codominio, graficaSet, &numeroElementosGrafica,
-                        &numeroElementosDom, &numeroElementosCodom);
+  CondicionBiyectividad(dominio, codominio, graficaSet,
+                        &numeroElementosGrafica);
 
   return 0;
 }

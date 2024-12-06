@@ -36,49 +36,47 @@ int CondicionFuncion(int dominio[MAXSetSize], int grafica[MAXSetSize][2],
 }
 
 // Funcion que recibe la funcion y verifica si es inyectiva
-int CondicionInyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
-                          int grafica[MAXSetSize][2], int numPares) {
+int CondicionInyectividad(int codominio[MAXSetSize], int grafica[MAXSetSize][2],
+                          int numPares, int tamDominio) {
   // Variables
-  static int visitados[MAXElementos] = {0};
+  int contador = 0;
 
   // Verificacion
-  for (int i = 0; i < numPares; i++) {
-    int y = grafica[i][1];
-    if (visitados[y] == 1) {
-      return 0;
+  for (int i = 0; i < tamDominio; i++) {
+    for (int j = 0; j < numPares; j++) {
+      if (grafica[j][1] == codominio[i]) {
+        contador += 1;
+      }
     }
-    visitados[y] = 1;
+    if (contador > 1) {
+      return 0; // No es inyectiva
+    }
+    contador = 0;
   }
 
-  return 1;
+  return 1; // Es inyectiva
 }
 
 // Funcion que recibe la funcion y verifica si es suprayectiva
-int CondicionSuprayectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
-                             int grafica[MAXSetSize][2], int numPares,int tamDominio,int tamCodominio) {
-	// Variables
-int cubierto[MAXElementos] = {0};
+int CondicionSuprayectividad(int codominio[MAXSetSize],
+                             int grafica[MAXSetSize][2], int numPares,
+                             int tamCodominio) {
+  // Variables
+  int contador = 0;
 
-    // Verificacion
-    for (int i = 0; i < numPares; i++) {
-        int elementoCodominio = grafica[i][1];
-
-        for (int j = 0; j < tamCodominio; j++) {
-            if (codominio[j] == elementoCodominio) {
-                cubierto[j] = 1; 
-                break;
-            }
-        }
+  // Verificacion
+  for (int i = 0; i < tamCodominio; i++) {
+    for (int j = 0; j < numPares; j++) {
+      if (grafica[j][1] == codominio[i]) {
+        contador += 1;
+      }
     }
-
-    // Verifica si todos los elementos del codominio fueron cubiertos
-    for (int i = 0; i < tamCodominio; i++) {
-        if (!cubierto[i]) {
-            return 0; 
-        }
+    if (contador == 0) {
+      return 0; // No es suprayectiva
     }
-
-    return 1; 
+    contador = 0;
+  }
+  return 1; // Es suprayectiva
 }
 
 // Funcion que recibe la funcion y verifica si es biyectiva
@@ -93,10 +91,10 @@ void CondicionBiyectividad(int dominio[MAXSetSize], int codominio[MAXSetSize],
 
   if (cumpleFuncion) {
     printf("La expresion es una funcion.\n");
-    cumpleInyectividad =
-        CondicionInyectividad(dominio, codominio, grafica, *numeroPares);
-    cumpleSuprayectividad =
-        CondicionSuprayectividad(dominio, codominio, grafica, *numeroPares, *numeroElementosDom, *numeroElementosCodom);
+    cumpleInyectividad = CondicionInyectividad(codominio, grafica, *numeroPares,
+                                               *numeroElementosCodom);
+    cumpleSuprayectividad = CondicionSuprayectividad(
+        codominio, grafica, *numeroPares, *numeroElementosCodom);
 
     if (cumpleInyectividad && cumpleSuprayectividad) {
       printf("La funcion cumple con las condiciones de inyectividad y "
@@ -201,9 +199,9 @@ int main(void) {
 
   SetGrafica(graficaSTR, graficaSet, &numeroElementosGrafica);
 
-
   // Biyectividad Call
-  CondicionBiyectividad(dominio, codominio, graficaSet,&numeroElementosGrafica, &numeroElementosDom, &numeroElementosCodom);
+  CondicionBiyectividad(dominio, codominio, graficaSet, &numeroElementosGrafica,
+                        &numeroElementosDom, &numeroElementosCodom);
 
   return 0;
 }
