@@ -1,5 +1,4 @@
 // Defines
-#include <stdint.h>
 #define MAXSetSize 64 // Bits
 #define MAXGraficaSize 128
 #define MAXTuplas MAXGraficaSize / 2
@@ -7,6 +6,7 @@
 
 // Includes
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
