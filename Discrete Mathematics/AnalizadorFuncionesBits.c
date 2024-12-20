@@ -20,7 +20,7 @@ int CondicionFuncion(uint64_t dominio, int grafica[MAXSetSize][2],
   int i, contador = 0;
 
   // Verificacion
-  for (i = 0; i < 32; i++) {
+  for (i = 0; i < 64; i++) {
     if (dominio & (1 << i)) {
       for (int j = 0; j < numeroPares; j++) {
         if (grafica[j][0] == i) {
@@ -143,7 +143,7 @@ int setInputConversion(char *texto) {
     int num = atoi(ptr);
 
     // Validacion
-    if (num < 0 || num > 31) {
+    if (num < 0 || num > 63) {
       printf("El numero %d no es valido\n", num);
       exit(1);
     }
