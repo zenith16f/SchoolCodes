@@ -1,0 +1,70 @@
+
+Codificar
+
+TAD Racional
+        
+        si a, b pertenecen a los Enteros y b!=0 entonces la pareja ordenada ( a, b ) pertenece 
+        a los Racionales    
+        
+        r1 = a / b    r2 = c / d                     Racionales 1 y 2
+        
+        r1 X r2 =  ac / cd                           multiplicacion
+        
+        r1 / r2 =  ad / bc                           regla sandwich  division
+        
+        r1 + r2 =  ( ad  + bc ) / bd                 suma
+        
+        r1 - r2 =  ( ad  - bc ) / bd                 resta
+        
+        ad = bc                                      igual
+
+
+El TAD Racional es un tipo de dato el cual esta representado por dos enteros donde uno es el numerador y el otro el denominador.
+
+Y tiene el sig. conjunto de operaciones
+
+crearRacional; Z  X (Z-{0})  -> Racional
+/*Pre-condición: den  <> 0 */
+
+numerador: Z  X (Z-{0})  ->  Z
+numerador: Racional ->  Z
+
+/* Pre-condición: r ha sido creado. */
+
+denominador: Z  X ( Z-{0})  ->  Z
+denominador: Racional ->  Z
+
+/* Pre-condición: r ha sido creado. */
+
+sumar: Racional X Racional -> Racional
+/* Pre-condición:  r1 y r2 han sido creados. */
+
+restar: Racional X Racional -> Racional
+/* Pre-condición:  r1 y r2 han sido creados. */
+
+multiplicar: Racional X Racional -> Racional
+/* Pre-condición:  r1 y r2 han sido creados. */ 
+
+dividir:  Racional X (Racional -{0})-> Racional
+/* Pre-condición:  r1 y r2 han sido creados. y r2 <> 0*/
+
+//Hacer una copia de un racional.
+copia: Racional -> Racional
+
+//Saber si dos racionales son iguales.
+sonIguales: Racional X Racional -> boolean
+
+show: Racional -> String 
+
+Codifique las funciones para realizar dichas operaciones
+
+y una funcion main con un menu para probarlas e imprimir los resiltados
+
+
+
+
+
+
+
+
+

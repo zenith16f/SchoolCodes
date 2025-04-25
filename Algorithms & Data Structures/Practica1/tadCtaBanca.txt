@@ -1,0 +1,39 @@
+
+Codificar
+
+TAD  Cuenta Bancaria 
+
+representacion
+
+char *numero, *titular;
+double saldo;
+
+Y tiene el sig. conjunto de operaciones
+  depositar() 
+  retirar()
+  saldoActual()
+  transferir()
+  
+  
+depositar: CuentaBancaria -> CuentaBancaria
+retirar: CuentaBancaria -> CuentaBancaria
+transferir: CuentaBancaria -> CuentaBancaria
+saldoActual: CuentaBancaria ->  saldo
+copia: CuentaBancaria -> CuentaBancaria 
+
+//Saber si dos CuentaBancaria o son iguales.
+sonIguales: CuentaBancaria X CuentaBancaria -> boolean
+show: CuentaBancaria  -> String 
+
+Codifique las funciones para realizar dichas operaciones
+
+y una funcion main con un menu para probarlas e imprimir los resiltados
+
+
+
+
+
+
+
+
+

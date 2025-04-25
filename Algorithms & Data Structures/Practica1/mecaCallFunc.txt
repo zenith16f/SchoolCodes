@@ -1,0 +1,67 @@
+
+          RAM
+     ______________
+     ______________
+     ______________
+     ______________
+     ______________
+pc-> _____a()______  paso 1
+pc-> ______________  dir. ret.   paso 4
+     ______________
+     ______________
+     ______________
+     ______________
+     ______________
+     ______________
+pc-> ______________ 1er inst a() paso 2
+     ______________
+     ______________
+     ______________
+     ______________
+pc-> ____return____  paso 3
+     ______________
+     ______________
+     ______________
+     ______________  ult. inst a()
+     ______________
+
+     marco funcion
+          param reales
+          dir. retorno
+          vars. locales
+
+
+
+     void a(){ b(); c();}
+     void b(){ d(); e(); }  
+     void c(){ f(); }
+     void d(){ g(); }
+     void e(){ }
+     void f(){ }
+     void g(){ }
+     
+                                
+                                Pila de llamadas
+
+                        mg
+                  md    md   md        me                 mf
+            mb    mb    mb   mb   mb   mb   mb      mc    mc   mc
+ ___  ma    ma    ma    ma   ma   ma   ma   ma  ma  ma    ma   ma   ma  ____
+
+ 
+      
+      2.-Pila de la Maq. Virtual de pila (hoc4) stack
+      3.-Pila de llamadas  frame
+
+
+     
+
+     
+
+
+     
+
+
+
+
+

@@ -1,0 +1,73 @@
+
+Codificar
+
+TAD Complejo
+        
+        si a, b pertenecen a los Enteros y b!=0 entonces la pareja ordenada 
+        ( a, b ) pertenece a los Complejos    
+        
+        r1 = a + bi    r2 = c + di              Complejos 1 y 2
+        
+        r1 X r2 =  ( ac - bd ) + (ad+cb) i      multiplicacion
+        
+        r1 / r2 =  (a + bi) /  ( c + di )       division hagan el algebra
+        
+        r1 + r2 =  ( a + c ) + (b+d) i          suma
+        
+        r1 - r2 =  ( a + c ) - (b+d) i          resta
+        
+        a = b y  b = d                          igual
+
+
+El TAD Complejo es un tipo de dato el cual esta representado por dos enteros donde uno es la parte Real y el otro la parte Imaginaria.
+
+Y tiene el sig. conjunto de operaciones
+
+crearComplejo; Z  X Z  -> Complejo
+
+
+partReal: Z  X Z-  ->  Z
+partReal: Complejo ->  Z
+
+/* Pre-condición: r ha sido creado. */
+
+partImagi: Z  X Z  ->  Z
+partImagi: Complejo ->  Z
+
+/* Pre-condición: r ha sido creado. */
+
+sumar: Complejo X Complejo -> Complejo
+/* Pre-condición:  r1 y r2 han sido creados. */
+
+restar: Complejo X Complejo -> Complejo
+/* Pre-condición:  r1 y r2 han sido creados. */
+
+multiplicar: Complejo X Complejo -> Complejo
+/* Pre-condición:  r1 y r2 han sido creados. */ 
+
+dividir:  Complejo X (Complejo -{0})-> Complejo
+/* Pre-condición:  r1 y r2 han sido creados. y r2 <> 0*/
+
+//Hacer una copia de un Complejo.
+copia: Complejo -> Complejo
+
+//Saber si dos Complejoes son iguales.
+sonIguales: Complejo X Complejo -> boolean
+
+show: Complejo -> String 
+
+
+crea 10 cuentas con saldos de 1000 a 10000
+
+Codifique las funciones para realizar dichas operaciones
+
+y una funcion main con un menu para probarlas e imprimir los resiltados
+
+
+
+
+
+
+
+
+

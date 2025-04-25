@@ -1,0 +1,63 @@
+
+Codificar
+
+TAD Vector3D
+        
+        si a, b y c pertenecen a los Enteros  entonces la pareja ordenada 
+        ( a, b, c ) pertenece a los Vectores 3D
+        
+        v1 = (x1, y1, z1)     v2 = (x2, y2, z2)       Vectores 3D 1 y 2
+        
+        
+        
+        v1 + v2 =  (x1 + x2, y1 + y2, z1 + z2)         suma
+        
+        v1 - v2 =  (x1 - x2, y1 - y2, z1 - z2)         resta
+        
+        v1 x v2 =  x1 x x2 + y1 x y2 + z1 x z2         prod. pto.
+        
+        x1 = x2 y y1 = y2 y z1 = z)                    igual
+
+
+El TAD Vector3D es un tipo de dato el cual esta representado por dos enteros donde uno es el numerador y el otro el denominador.
+
+Y tiene el sig. conjunto de operaciones
+
+crearVector3D; Z  X (Z-{0})  -> Vector3D
+/*Pre-condición: den  <> 0 */
+
+
+
+/* Pre-condición: r ha sido creado. */
+
+sumar: Vector3D X Vector3D -> Vector3D
+/* Pre-condición:  r1 y r2 han sido creados. */
+
+restar: Vector3D X Vector3D -> Vector3D
+/* Pre-condición:  r1 y r2 han sido creados. */
+
+
+
+prodPunto:  Vector3D X Vector3D-> Z
+/* Pre-condición:  r1 y r2 han sido creados. y r2 <> 0*/
+
+//Hacer una copia de un Vector3D.
+copia: Vector3D -> Vector3D
+
+//Saber si dos Vector3Des son iguales.
+sonIguales: Vector3D X Vector3D -> boolean
+
+show: Vector3D -> String 
+
+Codifique las funciones para realizar dichas operaciones
+
+y una funcion main con un menu para probarlas e imprimir los resiltados
+
+
+
+
+
+
+
+
+

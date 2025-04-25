@@ -1,0 +1,63 @@
+
+Codificar
+
+TAD Matriz
+        
+         Matrizs    
+        
+        Matrices 1 y 2
+        
+        
+        
+       
+        
+ 
+        
+        a[i] [j] + b[i] [j] = c[i] [j]         suma
+        
+                   
+        a[i] [j]- b[i] [j] = c[i] [j]         resta
+        
+        a[i] [j] =  b[i] [j]                  igual
+
+
+El TAD Matriz es un tipo de dato 
+
+Y tiene el sig. conjunto de operaciones
+
+crearMatriz:  -> Matriz
+
+/* Pre-condición: r ha sido creado. */
+
+sumar: Matriz X Matriz -> Matriz
+/* Pre-condición:  m1 y m2 han sido creados. */
+
+restar: Matriz X Matriz -> Matriz
+/* Pre-condición:  m1 y m2 han sido creados. */
+
+multiplicar: Matriz X Matriz -> Matriz
+/* Pre-condición:  m1 y m2 han sido creados. */ 
+
+dividir:  Matriz X (Matriz -{0})-> Matriz
+/* Pre-condición:  m1 y m2 han sido creados. y r2 <> 0*/
+
+//Hacer una copia de un Matriz.
+copia: Matriz -> Matriz
+
+//Saber si dos Matrizes son iguales.
+sonIguales: Matriz X Matriz -> boolean
+
+show: Matriz -> String 
+
+Codifique las funciones para realizar dichas operaciones
+
+y una funcion main con un menu para probarlas e imprimir los resiltados
+
+
+
+
+
+
+
+
+
