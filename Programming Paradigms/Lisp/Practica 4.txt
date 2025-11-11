@@ -1,0 +1,38 @@
+(DEFUN MODA (lista)
+  (PROG (frecuencia elemento frecuencia-max moda-actual resto)
+    (SETQ resto lista)
+    (SETQ frecuencia-max 0) ; Initialize max frequency
+    (SETQ moda-actual NIL)  ; Initialize mode
+
+  LOOP-EXTERNO
+    (COND ((NULL resto)
+            (RETURN moda-actual)))
+
+    (SETQ elemento (CAR resto))
+    (SETQ resto (CDR resto))
+    (SETQ frecuencia 1) ; Reset frequency for the current element
+
+    (PROG (temp) ; This PROG is mainly to set up a local variable and scope
+      (SETQ temp resto)
+
+    LOOP-INTERNO
+      (COND ((NULL temp) (GO FIN-INTERNO)))
+
+      ; Corrected SETQ for incrementing the frequency
+      (COND ((EQUAL elemento (CAR temp))
+              (SETQ frecuencia (+ frecuencia 1)))) ; Use EQUAL for general lists
+
+      (SETQ temp (CDR temp))
+      (GO LOOP-INTERNO)
+    FIN-INTERNO
+    ) ; End of inner PROG
+
+    ; Corrected COND syntax for multiple actions and correct variable names
+    (COND
+      ((OR (NULL moda-actual) (> frecuencia frecuencia-max))
+       (SETQ moda-actual elemento)
+       (SETQ frecuencia-max frecuencia)
+       ))
+
+    (GO LOOP-EXTERNO)
+  ))

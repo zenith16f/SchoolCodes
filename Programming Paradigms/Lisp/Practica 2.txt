@@ -1,0 +1,6 @@
+(DEFUN Penultimo(lista) (nth (- (length lista) 2) lista))
+
+(DEFUN TERCERO-PRIMERO (lista) (append (list (nth 2 lista))
+                                                 (list (car lista))
+                                                 (list (cadr lista))
+                                                 (nthcdr 3 lista)))

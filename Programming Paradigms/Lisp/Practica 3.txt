@@ -1,0 +1,17 @@
+Funcion para obtener el promedio de una lista de numeros:
+ (defun suma (lista)(cond 
+                                  ((null lista)0)
+                                  (T (+ (car lista)(suma (cdr lista))))    
+))
+
+(DEFUN promedio (lista)(cond 
+                                  ((null lista) 0)
+                                  (T (/ (suma lista) (length lista)))
+))
+
+Funcion para eliminar el n-esimo elemento de una lista:
+(DEFUN eliminar (N lista) (cond 
+                                     ((null lista) nil)
+                                     ((= N 0)(cdr lista))
+                                     (T (cons (car lista)(eliminar (- n 1)(cdr lista))))
+))
