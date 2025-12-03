@@ -17,6 +17,6 @@ BEGIN
     Fc <= (NOT C ) OR D OR B;
     Fd <= (C AND (NOT D)) OR A OR ((NOT B) AND (NOT D)) OR (B AND (NOT C) AND D) OR ((NOT B) AND C);
     Fe <= (C AND (NOT D)) OR ((NOT B) AND (NOT D));
-    Ff <= ((NOT C) AND (NOT D)) OR (B AND (NOT C)) OT (B AND (NOT D)) OR A;
+    Ff <= ((NOT C) AND (NOT D)) OR (B AND (NOT C)) OR (B AND (NOT D)) OR A;
     Fg<= (B AND (NOT C)) OR A OR (B AND (NOT C)) OR ((NOT B) AND C);
 END ARCHITECTURE segmentosBehavior;
