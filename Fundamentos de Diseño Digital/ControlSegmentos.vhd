@@ -1,49 +1,175 @@
 -- Libraries
 library IEEE;
-USE IEEE.std_logic_1164.all;
+use IEEE.std_logic_1164.all;
 
--- Entities
+-- Entity
 ENTITY controlSegmentoGate IS
     PORT (
         A,B,C,D: IN std_logic;
         control: IN std_logic;
-        output: OUT std_logic_vector(6 DOWNTO 0)
+        Fa, Fb, Fc, Fd, Fe, Ff, Fg: OUT std_logic
     );
 END controlSegmentoGate;
 
--- Architectures
+-- Architecture
 ARCHITECTURE controlSegmentoBehavior OF controlSegmentoGate IS
-    SIGNAL inputVector: std_logic_vector(3 DOWNTO 0);
-    SIGNAL Fa, Fb, Fc, Fd, Fe, Ff, Fg: std_logic;
-
+    SIGNAL input: std_logic_vector(4 DOWNTO 0);
 BEGIN
-    inputVector <= A & B & C & D;
-
-    -- Proceso principal de control
-    PROCESS(inputVector, control)
-    BEGIN
-        IF control = '1' THEN
-            -- BCD a 7 segmentos
-            Fa <= ((NOT A) AND C) OR ((NOT A) AND B AND C) OR (A AND (NOT B) AND (NOT C)) OR ((NOT B) AND (NOT C) AND (NOT D));
-            Fb <= ((NOT B) AND (NOT C)) OR ((NOT A) AND (NOT C) AND (NOT D)) OR ((NOT A) AND (NOT B)) OR ((NOT A) AND C AND D);
-            Fc <= ((NOT B) AND (NOT C)) OR ((NOT A) AND B) OR ((NOT A) AND D);
-            Fd <= (A AND (NOT C) AND (NOT D)) OR ((NOT A) AND B AND (NOT C) AND D) OR ((NOT A) AND (NOT B) AND C) OR ((NOT A) AND C AND (NOT D)) OR (A AND (NOT B) AND (NOT C));
-            Fe <= ((NOT B) AND (NOT C) AND (NOT D)) OR ((NOT A) AND C AND (NOT D));
-            Ff <= (A AND (NOT B) AND (NOT C)) OR ((NOT B) AND (NOT C) AND (NOT D)) OR ((NOT A) AND B AND(NOT C)) OR ((NOT A) AND B AND (NOT D));
-            Fg <= (B AND (NOT C)) OR A OR ((NOT B) AND C);
-        ELSE
-            -- BIN a 7 segmentos
-            Fa <= ((NOT B) AND (NOT D)) OR (A AND C) OR (A AND (NOT B) AND (NOT C)) OR ((NOT B) AND (NOT C) AND (NOT D));
-            Fb <= ((NOT A) AND B AND (NOT C)) OR (A AND (NOT C)) OR ((NOT A) AND (NOT B) AND C AND D) OR ((NOT A) AND C AND (NOT D));
-            Fc <= ((NOT A) AND (NOT D)) OR (B AND (NOT C)) OR ((NOT B) AND C AND (NOT D)) OR (B AND C AND (NOT D));
-            Fd <= (A AND B) OR ((NOT C) AND D) OR ((NOT B) AND (NOT C) AND (NOT D)) OR (C AND (NOT D));
-            Fe <= (C AND (NOT D)) OR ((NOT A) AND (NOT B));
-            Ff <= ((NOT A) AND C) OR ((NOT B) AND (NOT C)) OR (A AND (NOT D)) OR ((NOT A) AND B AND (NOT D));
-            Fg <= ((NOT A) AND B AND C) OR (A AND (NOT D)) OR (C AND (NOT D)) OR (B AND (NOT D));
-        END IF;
-    END PROCESS;
-
-    -- Asignar output
-    output <= Fg & Ff & Fe & Fd & Fc & Fb & Fa;
+    input <= control & A & B & C & D;
+    
+    -- Segmento A
+    Fa <= '1' when input="10000" else  -- BCD: 0
+          '1' when input="10010" else  -- BCD: 2
+          '1' when input="10011" else  -- BCD: 3
+          '1' when input="10101" else  -- BCD: 5
+          '1' when input="10110" else  -- BCD: 6
+          '1' when input="10111" else  -- BCD: 7
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="11001" else  -- BCD: 9
+          '1' when input="00000" else  -- BIN: 0
+          '1' when input="00010" else  -- BIN: 2
+          '1' when input="00011" else  -- BIN: 3
+          '1' when input="00101" else  -- BIN: 5
+          '1' when input="00110" else  -- BIN: 6
+          '1' when input="00111" else  -- BIN: 7
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01001" else  -- BIN: 9
+          '1' when input="01010" else  -- BIN: 10
+          '1' when input="01100" else  -- BIN: 12
+          '1' when input="01110" else  -- BIN: 14
+          '1' when input="01111" else  -- BIN: 15
+          '0';
+    
+    -- Segmento B
+    Fb <= '1' when input="10000" else  -- BCD: 0
+          '1' when input="10001" else  -- BCD: 1
+          '1' when input="10010" else  -- BCD: 2
+          '1' when input="10011" else  -- BCD: 3
+          '1' when input="10100" else  -- BCD: 4
+          '1' when input="10111" else  -- BCD: 7
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="11001" else  -- BCD: 9
+          '1' when input="00000" else  -- BIN: 0
+          '1' when input="00001" else  -- BIN: 1
+          '1' when input="00010" else  -- BIN: 2
+          '1' when input="00011" else  -- BIN: 3
+          '1' when input="00100" else  -- BIN: 4
+          '1' when input="00111" else  -- BIN: 7
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01001" else  -- BIN: 9
+          '1' when input="01010" else  -- BIN: 10
+          '1' when input="01101" else  -- BIN: 13
+          '0';
+    
+    -- Segmento C
+    Fc <= '1' when input="10000" else  -- BCD: 0
+          '1' when input="10001" else  -- BCD: 1
+          '1' when input="10011" else  -- BCD: 3
+          '1' when input="10100" else  -- BCD: 4
+          '1' when input="10101" else  -- BCD: 5
+          '1' when input="10110" else  -- BCD: 6
+          '1' when input="10111" else  -- BCD: 7
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="11001" else  -- BCD: 9
+          '1' when input="00000" else  -- BIN: 0
+          '1' when input="00001" else  -- BIN: 1
+          '1' when input="00010" else  -- BIN: 2
+          '1' when input="00011" else  -- BIN: 3
+          '1' when input="00100" else  -- BIN: 4
+          '1' when input="00101" else  -- BIN: 5
+          '1' when input="00110" else  -- BIN: 6
+          '1' when input="00111" else  -- BIN: 7
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01001" else  -- BIN: 9
+          '1' when input="01010" else  -- BIN: 10
+          '1' when input="01011" else  -- BIN: 11
+          '1' when input="01101" else  -- BIN: 13
+          '0';
+    
+    -- Segmento D
+    Fd <= '1' when input="10000" else  -- BCD: 0
+          '1' when input="10010" else  -- BCD: 2
+          '1' when input="10011" else  -- BCD: 3
+          '1' when input="10101" else  -- BCD: 5
+          '1' when input="10110" else  -- BCD: 6
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="11001" else  -- BCD: 9
+          '1' when input="00000" else  -- BIN: 0
+          '1' when input="00010" else  -- BIN: 2
+          '1' when input="00011" else  -- BIN: 3
+          '1' when input="00101" else  -- BIN: 5
+          '1' when input="00110" else  -- BIN: 6
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01001" else  -- BIN: 9
+          '1' when input="01011" else  -- BIN: 11
+          '1' when input="01100" else  -- BIN: 12
+          '1' when input="01101" else  -- BIN: 13
+          '1' when input="01110" else  -- BIN: 14
+          '0';
+    
+    -- Segmento E
+    Fe <= '1' when input="10000" else  -- BCD: 0
+          '1' when input="10010" else  -- BCD: 2
+          '1' when input="10110" else  -- BCD: 6
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="00000" else  -- BIN: 0
+          '1' when input="00010" else  -- BIN: 2
+          '1' when input="00110" else  -- BIN: 6
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01010" else  -- BIN: 10
+          '1' when input="01011" else  -- BIN: 11
+          '1' when input="01100" else  -- BIN: 12
+          '1' when input="01101" else  -- BIN: 13
+          '1' when input="01110" else  -- BIN: 14
+          '1' when input="01111" else  -- BIN: 15
+          '0';
+    
+    -- Segmento F
+    Ff <= '1' when input="10000" else  -- BCD: 0
+          '1' when input="10100" else  -- BCD: 4
+          '1' when input="10101" else  -- BCD: 5
+          '1' when input="10110" else  -- BCD: 6
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="11001" else  -- BCD: 9
+          '1' when input="00000" else  -- BIN: 0
+          '1' when input="00100" else  -- BIN: 4
+          '1' when input="00101" else  -- BIN: 5
+          '1' when input="00110" else  -- BIN: 6
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01001" else  -- BIN: 9
+          '1' when input="01010" else  -- BIN: 10
+          '1' when input="01011" else  -- BIN: 11
+          '1' when input="01100" else  -- BIN: 12
+          '1' when input="01110" else  -- BIN: 14
+          '1' when input="01111" else  -- BIN: 15
+          '0';
+    
+    -- Segmento G
+    Fg <= '1' when input="10010" else  -- BCD: 2
+          '1' when input="10011" else  -- BCD: 3
+          '1' when input="10100" else  -- BCD: 4
+          '1' when input="10101" else  -- BCD: 5
+          '1' when input="10110" else  -- BCD: 6
+          '1' when input="11000" else  -- BCD: 8
+          '1' when input="11001" else  -- BCD: 9
+          '1' when input="11010" else  -- BCD: 10
+          '1' when input="11011" else  -- BCD: 11
+          '1' when input="11100" else  -- BCD: 12
+          '1' when input="11101" else  -- BCD: 13
+          '1' when input="11110" else  -- BCD: 14
+          '1' when input="11111" else  -- BCD: 15
+          '1' when input="00010" else  -- BIN: 2
+          '1' when input="00011" else  -- BIN: 3
+          '1' when input="00100" else  -- BIN: 4
+          '1' when input="00101" else  -- BIN: 5
+          '1' when input="00110" else  -- BIN: 6
+          '1' when input="01000" else  -- BIN: 8
+          '1' when input="01001" else  -- BIN: 9
+          '1' when input="01010" else  -- BIN: 10
+          '1' when input="01011" else  -- BIN: 11
+          '1' when input="01101" else  -- BIN: 13
+          '1' when input="01110" else  -- BIN: 14
+          '1' when input="01111" else  -- BIN: 15
+          '0';
 
 END controlSegmentoBehavior;
