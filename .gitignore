@@ -2,6 +2,7 @@
 */compiled/*
 */compiled/
 *.out
+*.exe
 
 # Images
 *.png

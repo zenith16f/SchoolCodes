@@ -278,7 +278,7 @@ void OperationsMenu(ListaCadenas *lista) {
       printf("Ingresar otra operacion? (y/n)");
       scanf("%c", &display);
       if (display != 'y' && display != 'n') {
-        printf("Ingresa una opcion adecuada");
+        printf("\nIngresa una opcion adecuada");
         display = 'y';
       };
     }
