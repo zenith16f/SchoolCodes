@@ -1,8 +1,7 @@
-#include <math.h>
+#include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 // Struct
 typedef struct {
   char **items;
@@ -24,7 +23,7 @@ void longitud(char *a) {
 // Inversión de una cadena
 char *invertir(char *a) {
   char *x = (char *)malloc((strlen(a) + 1) * sizeof(char));
-  memcpy(x, a, strlen(a));
+  memcpy(x, a, strlen(a) + 1);
   char temp;
   for (char *k = x, *z = x + strlen(x) - 1; k < z; k++, z--) {
     temp = *k;
@@ -148,11 +147,20 @@ void addCadenatoList(ListaCadenas *lista, char *cadena) {
 void askCadena(ListaCadenas *lista) {
   char cadena[100];
   int otra = 1;
+  regex_t regex;
+  if (regcomp(&regex, "^[[:alnum:]]+$", REG_EXTENDED)) {
+    printf("Si compilo");
+    return;
+  }
+
   while (otra) {
     printf("Ingrese una cadena: ");
     fgets(cadena, sizeof(cadena), stdin);
     cadena[strcspn(cadena, "\n")] = '\0';
-
+    if (regexec(&regex, cadena, 0, NULL, 0) != 0) {
+      printf("Error: La cadena solo puede ser alfanumerica \n");
+      continue;
+    }
     if (strlen(cadena) > 50) {
       printf("Error: La cadena excede los 50 caracteres (%lu ingresados)\n",
              strlen(cadena));
@@ -221,10 +229,11 @@ void OperationsMenu(ListaCadenas *lista) {
       char *seleccionPot = selectOption(lista);
       // Validacion (Opcional)
       // if (strlen(seleccionPot) > 12) {
-      //   printf("Error: La cadena \"%s\" tiene %lu caracteres.\n", seleccionPot,
+      //   printf("Error: La cadena \"%s\" tiene %lu caracteres.\n",
+      //   seleccionPot,
       //          strlen(seleccionPot));
-      //   printf("La potencia solo acepta cadenas de 12 caracteres o menos.\n");
-      //   break; // Regresa al menú sin ejecutar la operación
+      //   printf("La potencia solo acepta cadenas de 12 caracteres o
+      //   menos.\n"); break; // Regresa al menú sin ejecutar la operación
       // }
 
       printf("Ingresa la potencia a la que se busca elevar: ");
@@ -252,13 +261,14 @@ void OperationsMenu(ListaCadenas *lista) {
       getCadenas(lista);
       char *seleccionSubsecuencia = selectOption(lista);
 
-         // Validar que la cadena no exceda 12 caracteres
-         if (strlen(seleccionSubsecuencia) > 12) {
-             printf("Error: La cadena \"%s\" tiene %lu caracteres.\n",
-                    seleccionSubsecuencia, strlen(seleccionSubsecuencia));
-             printf("La subsecuencia solo acepta cadenas de 12 caracteres o menos.\n");
-             break;  // Regresa al menú sin ejecutar la operación
-         }
+      // Validar que la cadena no exceda 12 caracteres
+      if (strlen(seleccionSubsecuencia) > 12) {
+        printf("Error: La cadena \"%s\" tiene %lu caracteres.\n",
+               seleccionSubsecuencia, strlen(seleccionSubsecuencia));
+        printf(
+            "La subsecuencia solo acepta cadenas de 12 caracteres o menos.\n");
+        break; // Regresa al menú sin ejecutar la operación
+      }
       subsecuencias(seleccionSubsecuencia);
       break;
     case 7:
@@ -276,6 +286,7 @@ void OperationsMenu(ListaCadenas *lista) {
     } else {
 
       printf("Ingresar otra operacion? (y/n)");
+      getchar();
       scanf("%c", &display);
       if (display != 'y' && display != 'n') {
         printf("\nIngresa una opcion adecuada");
