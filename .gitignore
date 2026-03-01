@@ -1,16 +1,113 @@
-# Compiled codes
-*/compiled/*
-*/compiled/
+# ==============================
+# Compiled output — C
+# ==============================
+*.o
 *.out
+*.a
+*.so
 *.exe
+a.out
 
-# Images
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.svg
-*.ppm
+# ==============================
+# Compiled output — Java
+# ==============================
+*.class
+*.jar
+*.war
+*.ear
 
-#IDE conifgurations
-*./idea
+# ==============================
+# Compiled output — VHDL (GHDL)
+# ==============================
+*.cf
+work-obj93.cf
+work-obj08.cf
+*.ghw
+*.vcd
+*.wlf
+transcript
+
+# ==============================
+# Quartus (FPGA / VHDL)
+# ==============================
+db/
+incremental_db/
+simulation/modelsim/
+*.qws
+*.bak
+*.rpt
+*.summary
+*.pin
+*.pof
+*.sof
+*.jdi
+*.smsg
+*.qsf.bak
+
+# ==============================
+# Build directories
+# ==============================
+build/
+bin/
+out/
+
+# ==============================
+# IDEs — VS Code
+# ==============================
+.vscode/
+*.code-workspace
+
+# ==============================
+# IDEs — CLion / IntelliJ
+# ==============================
+.idea/
+*.iml
+cmake-build-*/
+
+# ==============================
+# IDEs — Eclipse
+# ==============================
+.classpath
+.project
+.settings/
+
+# ==============================
+# CMake
+# ==============================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# ==============================
+# Valgrind / profiling
+# ==============================
+vgcore.*
+callgrind.*
+massif.*
+
+# ==============================
+# OS — macOS
+# ==============================
+.DS_Store
+
+# ==============================
+# OS — Linux
+# ==============================
+*~
+.nfs*
+
+# ==============================
+# OS — Windows
+# ==============================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==============================
+# Logs & temp files
+# ==============================
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
