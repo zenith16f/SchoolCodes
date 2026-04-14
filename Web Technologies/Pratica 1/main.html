@@ -46,11 +46,16 @@
 
     <h3>Formulario Formulariante</h3>
     <p>Llena el formulario como tu corazon te lo diga, indique y desee</p>
-    <form>
+    <form
+      id="Formulario"
+      method="get"
+      action="main.html"
+    >
       <label for=""> Correo </label>
       <input
         type="email"
         placeholder="algo@algo.algo"
+        required
         name=""
         id=""
       />
@@ -66,6 +71,7 @@
       <label for=""> Apellido </label>
       <input
         placeholder="Doe"
+        required
         type="text"
         name=""
         id=""
@@ -75,6 +81,7 @@
       <label for=""> Nombre de Usuario </label>
       <input
         type="text"
+        required
         placeholder="JhonDoe"
         name=""
         id=""
@@ -131,12 +138,205 @@
       ></textarea>
 
       <hr />
+      <label for="genero">Género preferido de juegos</label>
+      <select
+        name="genero"
+        id="genero"
+      >
+        <option
+          value=""
+          disabled
+          selected
+        >
+          Selecciona uno
+        </option>
+        <option value="rpg">RPG</option>
+        <option value="fps">Shooter (FPS)</option>
+        <option value="aventura">Aventura</option>
+        <option value="indie">Indie</option>
+        <option value="estrategia">Estrategia</option>
+        <option value="deportes">Deportes</option>
+      </select>
+      <br /><br />
+
+      <label>Plataforma principal</label><br />
+      <input
+        type="radio"
+        name="plataforma"
+        id="pc"
+        value="pc"
+      />
+      <label for="pc">PC</label>
+      <input
+        type="radio"
+        name="plataforma"
+        id="ps"
+        value="ps"
+      />
+      <label for="ps">PlayStation</label>
+      <input
+        type="radio"
+        name="plataforma"
+        id="xbox"
+        value="xbox"
+      />
+      <label for="xbox">Xbox</label>
+      <input
+        type="radio"
+        name="plataforma"
+        id="switch"
+        value="switch"
+      />
+      <label for="switch">Nintendo Switch</label>
+      <input
+        type="radio"
+        name="plataforma"
+        id="movil"
+        value="movil"
+      />
+      <label for="movil">Móvil</label>
+      <br /><br />
+
+      <label>¿Qué tipo de contenido te interesa?</label><br />
+      <input
+        type="checkbox"
+        name="contenido"
+        id="resenas"
+        value="resenas"
+      />
+      <label for="resenas">Leer reseñas</label>
+      <input
+        type="checkbox"
+        name="contenido"
+        id="escribir"
+        value="escribir"
+      />
+      <label for="escribir">Escribir reseñas</label>
+      <input
+        type="checkbox"
+        name="contenido"
+        id="listas"
+        value="listas"
+      />
+      <label for="listas">Crear listas</label>
+      <input
+        type="checkbox"
+        name="contenido"
+        id="descubrir"
+        value="descubrir"
+      />
+      <label for="descubrir">Descubrir juegos nuevos</label>
+      <br /><br />
+
+      <label for="experiencia">Nivel de experiencia gamer</label>
+      <input
+        type="range"
+        name="experiencia"
+        id="experiencia"
+        min="1"
+        max="10"
+        value="5"
+      />
+      <br /><br />
+
+      <label for="nacimiento">Fecha de nacimiento</label>
+      <input
+        type="date"
+        name="nacimiento"
+        id="nacimiento"
+      />
+      <br /><br />
+
+      <label for="hora">¿A qué hora sueles jugar?</label>
+      <input
+        type="time"
+        name="hora"
+        id="hora"
+      />
+      <br /><br />
+
+      <label for="sitio">Tu sitio web o perfil de Steam</label>
+      <input
+        type="url"
+        name="sitio"
+        id="sitio"
+        placeholder="https://steamcommunity.com/id/tuuser"
+      />
+      <br /><br />
+
+      <label for="telefono">Teléfono (opcional)</label>
+      <input
+        type="tel"
+        name="telefono"
+        id="telefono"
+        placeholder="55 1234 5678"
+      />
+      <br /><br />
+
+      <label for="contrasena">Contraseña</label>
+      <input
+        type="password"
+        name="contrasena"
+        id="contrasena"
+        placeholder="Mínimo 8 caracteres"
+      />
+      <br /><br />
+
+      <label for="buscar">Buscar un juego en el catálogo</label>
+      <input
+        type="search"
+        name="buscar"
+        id="buscar"
+        placeholder="Buscar..."
+        list="juegos"
+      />
+      <datalist id="juegos">
+        <option value="Hollow Knight"></option>
+        <option value="Elden Ring"></option>
+        <option value="Celeste"></option>
+        <option value="Hades"></option>
+        <option value="Cyberpunk 2077"></option>
+      </datalist>
+      <br /><br />
+
+      <input
+        type="hidden"
+        name="version"
+        value="1.0"
+      />
+
+      <hr />
       <input
         type="reset"
         value="Vaciar"
       />
 
-      <button type="submit">Guardar</button>
+      <button
+        popovertarget="Alerta"
+        type="button"
+      >
+        Enviar Datos Datosos
+      </button>
     </form>
+
+    <dialog
+      id="Alerta"
+      popover="auto"
+    >
+      <p>Alerta Alertosa Alertante sobre el formulario</p>
+      <button
+        type="submit"
+        form="Formulario"
+      >
+        Enviar Datos, ya estan listos
+      </button>
+      <button
+        type="button"
+        popovertarget="Alerta"
+        popovertargetaction="hide"
+      >
+        No, mejor no
+      </button>
+    </dialog>
   </body>
 </html>
