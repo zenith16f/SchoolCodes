@@ -112,6 +112,12 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 
+# ==============================
+# Text Files (Pseudo BD)
+# ==============================
+*.dat
+
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
