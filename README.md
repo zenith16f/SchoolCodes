@@ -61,4 +61,4 @@ SchoolCodes/
 
 ## 📜 License
 
-For educational reference only. Please don't submit this as your own work.
+MIT License.
