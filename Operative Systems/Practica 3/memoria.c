@@ -1,6 +1,5 @@
 /*
  * memoria.c - Operaciones sobre memoria compartida System V
- * Práctica 3 - Sistemas Operativos - ESCOM IPN
  */
 
 #include "definitions.h"

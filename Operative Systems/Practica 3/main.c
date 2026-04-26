@@ -1,18 +1,5 @@
 /*
  * main.c - Proceso padre: comunicación entre procesos padre-hijos
- * Práctica 3 - Sistemas Operativos - ESCOM IPN
- * Equipo: Cuellar, Guzmán, Macías, Palomo - Grupo 4CV4
- *
- * Este programa:
- *   1. Crea un segmento de memoria compartida y coloca una matriz
- *   2. Crea un semáforo para sincronizar el acceso
- *   3. Muestra la matriz en pantalla
- *   4. Crea 3 procesos hijos (uno por fila)
- *   5. Cada hijo calcula la suma de su fila y la almacena en memoria
- *   6. El padre espera a que todos los hijos terminen
- *   7. El padre lee y muestra los resultados
- *   8. Libera los recursos IPC
- *
  * Compilación: make
  * Ejecución:   ./main
  */

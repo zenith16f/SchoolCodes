@@ -1,15 +1,5 @@
 /*
  * procesoHijo.c - Lógica del proceso hijo
- * Práctica 3 - Sistemas Operativos - ESCOM IPN
- *
- * Cada proceso hijo:
- *   1. Se presenta con su PID y el PID de su padre
- *   2. Accede a la memoria compartida protegido por el semáforo
- *   3. Lee los datos de la fila asignada
- *   4. Calcula la suma de los elementos de su fila
- *   5. Muestra en pantalla los datos procesados y el resultado
- *   6. Escribe el resultado en la memoria compartida
- *   7. Incrementa el contador de hijos terminados
  */
 
 #include "definitions.h"
