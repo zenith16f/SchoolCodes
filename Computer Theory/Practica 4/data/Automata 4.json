@@ -1,0 +1,64 @@
+{
+  "alphabet": ["a", "b", "c", "d", "e"],
+  "states": ["q0", "q1", "q2", "q3", "q4", "q5", "qF", "qD"],
+  "initState": "q0",
+  "finalStates": ["qF"],
+  "transitionFunction": {
+    "q0": {
+      "a": "q1",
+      "b": "qD",
+      "c": "q5",
+      "d": "qD",
+      "e": "qD"
+    },
+    "q1": {
+      "a": "qD",
+      "b": "q2",
+      "c": "qD",
+      "d": "qD",
+      "e": "qD"
+    },
+    "q2": {
+      "a": "qD",
+      "b": "qD",
+      "c": "q3",
+      "d": "qD",
+      "e": "qD"
+    },
+    "q3": {
+      "a": "qD",
+      "b": "qD",
+      "c": "qD",
+      "d": "q4",
+      "e": "qD"
+    },
+    "q4": {
+      "a": "qD",
+      "b": "qD",
+      "c": "q3",
+      "d": "qD",
+      "e": "qF"
+    },
+    "q5": {
+      "a": "qD",
+      "b": "qF",
+      "c": "qD",
+      "d": "qD",
+      "e": "qD"
+    },
+    "qF": {
+      "a": "qD",
+      "b": "qD",
+      "c": "qD",
+      "d": "qD",
+      "e": "qD"
+    },
+    "qD": {
+      "a": "qD",
+      "b": "qD",
+      "c": "qD",
+      "d": "qD",
+      "e": "qD"
+    }
+  }
+}
