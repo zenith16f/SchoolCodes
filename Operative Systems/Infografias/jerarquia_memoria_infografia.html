@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Jerarquía de Memoria – Infografía</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0d0f14;
+        --surface: #13161e;
+        --surface2: #1a1e28;
+        --border: rgba(255, 255, 255, 0.07);
+        --text: #e8eaf0;
+        --muted: #8a8fa8;
+        --accent: #6c63ff;
+
+        --c0: #7b6fd4; /* registros */
+        --c1: #5e9cf5; /* L1 */
+        --c2: #3ec9c9; /* L2 */
+        --c3: #38c172; /* L3 */
+        --c4: #f5a623; /* RAM */
+        --c5: #e8604a; /* NVMe */
+        --c6: #d44fa3; /* SSD/HDD */
+        --c7: #a06cd5; /* Ext */
+        --c8: #52a8f5; /* Flash */
+        --c9: #5abfaa; /* Nube */
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 48px 32px 64px;
+      }
+
+      /* ── HEADER ─────────────────────────────────────── */
+      .header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: start;
+        gap: 24px;
+        margin-bottom: 48px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header-left .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 8px;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+      }
+
+      h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        line-height: 1.1;
+        color: #fff;
+        letter-spacing: -0.5px;
+        margin-bottom: 10px;
+      }
+
+      h1 span {
+        color: var(--accent);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 13.5px;
+        max-width: 460px;
+        line-height: 1.65;
+      }
+
+      .meta {
+        background: var(--surface);
+        border: 0.5px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 18px;
+        font-size: 12px;
+        color: var(--muted);
+        min-width: 190px;
+        line-height: 1.8;
+      }
+
+      .meta strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 4px;
+        font-family: "Syne", sans-serif;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      /* ── BODY LAYOUT ─────────────────────────────────── */
+      .body-grid {
+        display: grid;
+        grid-template-columns: 420px 1fr;
+        gap: 6rem;
+        align-items: start;
+        margin-bottom: 48px;
+      }
+
+      /* ── PYRAMID ─────────────────────────────────────── */
+      .pyramid-section h2,
+      .table-section h2 {
+        font-family: "Syne", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .pyramid-section h2::after,
+      .table-section h2::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .pyramid-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .axis-labels {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 0 2px;
+        margin-bottom: 6px;
+      }
+
+      .pyr-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 0;
+        position: relative;
+      }
+
+      .pyr-speed {
+        font-size: 10px;
+        color: var(--muted);
+        white-space: nowrap;
+        text-align: right;
+        width: 72px;
+        flex-shrink: 0;
+        padding-right: 8px;
+      }
+
+      .pyr-bar-wrap {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .pyr-bar {
+        height: 40px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+        transition: opacity 0.15s;
+        position: relative;
+      }
+
+      .pyr-bar:hover {
+        opacity: 0.85;
+      }
+
+      .pyr-bar span {
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        white-space: nowrap;
+        font-family: "Syne", sans-serif;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      }
+
+      .pyr-cap {
+        font-size: 10px;
+        color: var(--muted);
+        white-space: nowrap;
+        width: 72px;
+        flex-shrink: 0;
+        padding-left: 8px;
+      }
+
+      .pyramid-footer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 10px;
+        padding: 0 2px;
+      }
+
+      .pyramid-footer .arrow-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      /* ── TABLE ───────────────────────────────────────── */
+      .table-section {
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+
+      thead th {
+        background: var(--surface2);
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      thead th:first-child {
+        border-radius: 8px 0 0 0;
+      }
+      thead th:last-child {
+        border-radius: 0 8px 0 0;
+      }
+
+      tbody tr {
+        border-bottom: 0.5px solid var(--border);
+        transition: background 0.12s;
+      }
+
+      tbody tr:hover {
+        background: rgba(255, 255, 255, 0.025);
+      }
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      tbody td {
+        padding: 9px 12px;
+        vertical-align: middle;
+        line-height: 1.4;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .chip-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+
+      .val {
+        color: var(--text);
+      }
+      .val-muted {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .price-badge {
+        display: inline-block;
+        background: rgba(108, 99, 255, 0.15);
+        color: #a89ff5;
+        border: 0.5px solid rgba(108, 99, 255, 0.3);
+        border-radius: 4px;
+        padding: 2px 7px;
+        font-size: 11px;
+        white-space: nowrap;
+        font-weight: 500;
+      }
+
+      /* ── LEGEND ──────────────────────────────────────── */
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 20px;
+        margin-top: 10px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .legend-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+      }
+
+      /* ── KEY METRICS STRIP ───────────────────────────── */
+      .metrics-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 36px;
+      }
+
+      .metric-card {
+        background: var(--surface);
+        border: 0.5px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 16px;
+      }
+
+      .metric-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+
+      .metric-value {
+        font-family: "Syne", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 3px;
+      }
+
+      .metric-sub {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      /* ── REFERENCES ──────────────────────────────────── */
+      .references {
+        background: var(--surface);
+        border: 0.5px solid var(--border);
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin-top: 8px;
+      }
+
+      .references h3 {
+        font-family: "Syne", sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+
+      .ref-list {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px 32px;
+      }
+
+      .ref-list li {
+        font-size: 11.5px;
+        color: var(--muted);
+        line-height: 1.5;
+        padding-left: 14px;
+        position: relative;
+      }
+
+      .ref-list li::before {
+        content: "›";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+
+      .ref-list a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .ref-list a:hover {
+        text-decoration: underline;
+      }
+
+      /* ── DECORATIVE DOTS ─────────────────────────────── */
+      .dot-grid {
+        position: fixed;
+        inset: 0;
+        background-image: radial-gradient(
+          rgba(108, 99, 255, 0.08) 1px,
+          transparent 1px
+        );
+        background-size: 28px 28px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── SECTION DIVIDER ─────────────────────────────── */
+      .section-divider {
+        width: 100%;
+        height: 1px;
+        background: var(--border);
+        margin: 32px 0;
+      }
+
+      /* ── NOTE BOX ────────────────────────────────────── */
+      .note {
+        background: rgba(108, 99, 255, 0.07);
+        border-left: 2px solid var(--accent);
+        border-radius: 0 6px 6px 0;
+        padding: 10px 14px;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 16px;
+      }
+
+      .note strong {
+        color: var(--text);
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          color: #111;
+        }
+        .dot-grid {
+          display: none;
+        }
+        .page {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dot-grid"></div>
+    <div class="page">
+      <!-- HEADER -->
+      <header class="header">
+        <div class="header-left">
+          <p class="eyebrow">Sistemas Operativos · ESCOM-IPN · 2025</p>
+          <h1>Jerarquía de <span>Memoria</span><br />Actualizada</h1>
+        </div>
+        <div class="meta">
+          <strong>Integrantes</strong>
+          Guzmán Celaya Fernando<br />
+          <br />
+          <strong>Grupo</strong>
+          4CV4
+        </div>
+      </header>
+
+      <!-- BODY: PYRAMID + TABLE -->
+      <div class="body-grid">
+        <!-- LEFT: PYRAMID -->
+        <div class="pyramid-section">
+          <h2>Pirámide de memoria</h2>
+          <div class="pyramid-wrap">
+            <div class="axis-labels">
+              <span>← Velocidad</span>
+              <span>Capacidad →</span>
+            </div>
+
+            <!-- Row: Registros -->
+            <div class="pyr-row">
+              <div class="pyr-speed">&lt;0.5 ns</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c0); width: 62px"
+                >
+                  <span>Registros</span>
+                </div>
+              </div>
+              <div class="pyr-cap">&lt;1 KB</div>
+            </div>
+            <!-- L1 -->
+            <div class="pyr-row">
+              <div class="pyr-speed">0.5–1 ns</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c1); width: 86px"
+                >
+                  <span>Caché L1</span>
+                </div>
+              </div>
+              <div class="pyr-cap">32–128 KB</div>
+            </div>
+            <!-- L2 -->
+            <div class="pyr-row">
+              <div class="pyr-speed">2–5 ns</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c2); width: 118px"
+                >
+                  <span>Caché L2</span>
+                </div>
+              </div>
+              <div class="pyr-cap">256 KB–4 MB</div>
+            </div>
+            <!-- L3 -->
+            <div class="pyr-row">
+              <div class="pyr-speed">5–15 ns</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c3); width: 150px"
+                >
+                  <span>Caché L3</span>
+                </div>
+              </div>
+              <div class="pyr-cap">8–192 MB</div>
+            </div>
+            <!-- RAM -->
+            <div class="pyr-row">
+              <div class="pyr-speed">10–100 ns</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c4); width: 180px"
+                >
+                  <span>RAM DDR5</span>
+                </div>
+              </div>
+              <div class="pyr-cap">8 GB–2 TB</div>
+            </div>
+            <!-- NVMe -->
+            <div class="pyr-row">
+              <div class="pyr-speed">20–100 µs</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c5); width: 200px"
+                >
+                  <span>SSD NVMe</span>
+                </div>
+              </div>
+              <div class="pyr-cap">256 GB–16 TB</div>
+            </div>
+            <!-- HDD/SATA -->
+            <div class="pyr-row">
+              <div class="pyr-speed">0.1–10 ms</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c6); width: 222px"
+                >
+                  <span>SSD SATA / HDD</span>
+                </div>
+              </div>
+              <div class="pyr-cap">500 GB–20 TB</div>
+            </div>
+            <!-- Ext HDD -->
+            <div class="pyr-row">
+              <div class="pyr-speed">0.5–20 ms</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c7); width: 244px"
+                >
+                  <span>Disco externo</span>
+                </div>
+              </div>
+              <div class="pyr-cap">500 GB–22 TB</div>
+            </div>
+            <!-- Flash USB -->
+            <div class="pyr-row">
+              <div class="pyr-speed">1–50 ms</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c8); width: 260px"
+                >
+                  <span>Flash USB / SD</span>
+                </div>
+              </div>
+              <div class="pyr-cap">8 GB–2 TB</div>
+            </div>
+            <!-- Nube -->
+            <div class="pyr-row">
+              <div class="pyr-speed">10 ms–s</div>
+              <div class="pyr-bar-wrap">
+                <div
+                  class="pyr-bar"
+                  style="background: var(--c9); width: 278px"
+                >
+                  <span>Almac. en nube</span>
+                </div>
+              </div>
+              <div class="pyr-cap">15 GB–∞</div>
+            </div>
+
+            <div class="pyramid-footer">
+              <span class="arrow-label"
+                >▲ Mayor velocidad<br />Mayor costo/GB</span
+              >
+              <span
+                class="arrow-label"
+                style="text-align: right"
+                >▼ Mayor capacidad<br />Menor costo/GB</span
+              >
+            </div>
+          </div>
+
+          <div class="note">
+            <strong>Nota:</strong> Las cintas magnéticas (LTO-9) siguen siendo
+            relevantes en entornos empresariales para backups masivos: ~400
+            MB/s, 18–45 TB por cartucho y &lt;$0.004/GB, el almacenamiento más
+            económico que existe.
+          </div>
+        </div>
+
+        <!-- RIGHT: TABLE -->
+        <div class="table-section">
+          <h2>Especificaciones detalladas</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nivel</th>
+                <th>Velocidad de acceso</th>
+                <th>Capacidad típica</th>
+                <th>Precio aprox.</th>
+                <th>Ejemplo de mercado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c0)"
+                    ></span
+                    >Registros</span
+                  >
+                </td>
+                <td><span class="val">&lt;0.5 ns</span></td>
+                <td><span class="val">&lt;512 B</span></td>
+                <td><span class="price-badge">Incluido en CPU</span></td>
+                <td class="val-muted">Intel Core i9-14900K (~$550)</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c1)"
+                    ></span
+                    >Caché L1</span
+                  >
+                </td>
+                <td><span class="val">0.5 – 1 ns</span></td>
+                <td><span class="val">32 – 128 KB/núcleo</span></td>
+                <td><span class="price-badge">Incluido en CPU</span></td>
+                <td class="val-muted">AMD Ryzen 9 7950X (~$500)</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c2)"
+                    ></span
+                    >Caché L2</span
+                  >
+                </td>
+                <td><span class="val">2 – 5 ns</span></td>
+                <td><span class="val">256 KB – 4 MB/núcleo</span></td>
+                <td><span class="price-badge">Incluido en CPU</span></td>
+                <td class="val-muted">Intel Core i7-13700K (~$350)</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c3)"
+                    ></span
+                    >Caché L3</span
+                  >
+                </td>
+                <td><span class="val">5 – 15 ns</span></td>
+                <td><span class="val">8 – 192 MB</span></td>
+                <td><span class="price-badge">Incluido en CPU</span></td>
+                <td class="val-muted">AMD Ryzen 9 7950X3D 128 MB (~$650)</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c4)"
+                    ></span
+                    >RAM DDR5</span
+                  >
+                </td>
+                <td>
+                  <span class="val">10 – 100 ns</span><br /><span
+                    class="val-muted"
+                    >38–100 GB/s ancho de banda</span
+                  >
+                </td>
+                <td><span class="val">8 GB – 2 TB</span></td>
+                <td><span class="price-badge">~$25–60 / 16 GB</span></td>
+                <td class="val-muted">
+                  Kingston Fury Beast DDR5-6000 32 GB ~$80
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c5)"
+                    ></span
+                    >SSD NVMe</span
+                  >
+                </td>
+                <td>
+                  <span class="val">20 – 100 µs</span><br /><span
+                    class="val-muted"
+                    >5–14 GB/s lectura</span
+                  >
+                </td>
+                <td><span class="val">256 GB – 16 TB</span></td>
+                <td><span class="price-badge">$0.06–0.12 / GB</span></td>
+                <td class="val-muted">Samsung 990 Pro 2 TB PCIe 4.0 ~$130</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c6)"
+                    ></span
+                    >SSD SATA / HDD</span
+                  >
+                </td>
+                <td>
+                  <span class="val">0.1 – 10 ms</span><br /><span
+                    class="val-muted"
+                    >80–550 MB/s</span
+                  >
+                </td>
+                <td><span class="val">500 GB – 20 TB</span></td>
+                <td><span class="price-badge">$0.02–0.05 / GB</span></td>
+                <td class="val-muted">Seagate Barracuda 8 TB HDD ~$130</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c7)"
+                    ></span
+                    >Disco externo</span
+                  >
+                </td>
+                <td>
+                  <span class="val">0.5 – 20 ms</span><br /><span
+                    class="val-muted"
+                    >100 MB/s – 2 GB/s</span
+                  >
+                </td>
+                <td><span class="val">500 GB – 22 TB</span></td>
+                <td><span class="price-badge">$0.02–0.08 / GB</span></td>
+                <td class="val-muted">WD My Passport 5 TB USB 3.0 ~$110</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c8)"
+                    ></span
+                    >Flash USB / SD</span
+                  >
+                </td>
+                <td>
+                  <span class="val">1 – 50 ms</span><br /><span
+                    class="val-muted"
+                    >25–420 MB/s lectura</span
+                  >
+                </td>
+                <td><span class="val">8 GB – 2 TB</span></td>
+                <td><span class="price-badge">$0.05–0.30 / GB</span></td>
+                <td class="val-muted">SanDisk Extreme USB 3.2 256 GB ~$30</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="chip"
+                    ><span
+                      class="chip-dot"
+                      style="background: var(--c9)"
+                    ></span
+                    >Nube</span
+                  >
+                </td>
+                <td>
+                  <span class="val">10 ms – varios s</span><br /><span
+                    class="val-muted"
+                    >Depende de red (50 Mbps–10 Gbps)</span
+                  >
+                </td>
+                <td><span class="val">15 GB – petabytes</span></td>
+                <td><span class="price-badge">$0.002–0.023 / GB/mes</span></td>
+                <td class="val-muted">
+                  AWS S3 ~$0.023/GB/mes · Google One 2 TB ~$10/mes
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div
+            class="legend"
+            style="margin-top: 14px"
+          >
+            <div class="legend-item">
+              <div
+                class="legend-dot"
+                style="background: var(--c0)"
+              ></div>
+              On-chip (CPU)
+            </div>
+            <div class="legend-item">
+              <div
+                class="legend-dot"
+                style="background: var(--c4)"
+              ></div>
+              Memoria principal
+            </div>
+            <div class="legend-item">
+              <div
+                class="legend-dot"
+                style="background: var(--c5)"
+              ></div>
+              Almac. local rápido
+            </div>
+            <div class="legend-item">
+              <div
+                class="legend-dot"
+                style="background: var(--c7)"
+              ></div>
+              Almac. portátil
+            </div>
+            <div class="legend-item">
+              <div
+                class="legend-dot"
+                style="background: var(--c9)"
+              ></div>
+              Almac. remoto
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION DIVIDER -->
+      <div class="section-divider"></div>
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>Referencias (IEEE)</h3>
+        <ul class="ref-list">
+          <li>
+            [1] A. S. Tanenbaum y H. Bos, <em>Modern Operating Systems</em>, 4.ª
+            ed. Upper Saddle River, NJ, EE. UU.: Pearson, 2015.
+          </li>
+          <li>
+            [2] Intel Corporation, "Intel Core 13th &amp; 14th Generation
+            Desktop Processors Datasheet," Intel, Santa Clara, CA, EE. UU.,
+            2024. [En línea]. Disponible en:
+            <a
+              href="https://ark.intel.com"
+              target="_blank"
+              >https://ark.intel.com</a
+            >
+          </li>
+          <li>
+            [3] Advanced Micro Devices (AMD), "AMD Ryzen™ 9 7000 Series Desktop
+            Processors — Product Specifications," AMD, Santa Clara, CA, EE. UU.,
+            2024. [En línea]. Disponible en:
+            <a
+              href="https://www.amd.com/en/products/processors/desktops/ryzen.html"
+              target="_blank"
+              >https://www.amd.com</a
+            >
+          </li>
+          <li>
+            [4] Samsung Electronics, "Samsung 990 Pro NVMe™ SSD Product Brief,"
+            Samsung, Suwon, Corea del Sur, 2024. [En línea]. Disponible en:
+            <a
+              href="https://www.samsung.com/semiconductor/minisite/ssd/product/consumer/990pro/"
+              target="_blank"
+              >https://www.samsung.com</a
+            >
+          </li>
+          <li>
+            [5] Kingston Technology, "FURY Beast DDR5 — Product Specifications,"
+            Kingston, Fountain Valley, CA, EE. UU., 2024. [En línea]. Disponible
+            en:
+            <a
+              href="https://www.kingston.com/dataSheets/KF560C36BBE-32_en.pdf"
+              target="_blank"
+              >https://www.kingston.com</a
+            >
+          </li>
+          <li>
+            [6] Amazon Web Services, "Amazon S3 Pricing," AWS, Seattle, WA, EE.
+            UU., 2025. [En línea]. Disponible en:
+            <a
+              href="https://aws.amazon.com/s3/pricing/"
+              target="_blank"
+              >https://aws.amazon.com/s3/pricing/</a
+            >
+          </li>
+          <li>
+            [7] Western Digital Corporation, "WD My Passport Portable Hard Drive
+            — Specifications," Western Digital, San Jose, CA, EE. UU., 2024. [En
+            línea]. Disponible en:
+            <a
+              href="https://www.westerndigital.com/products/portable-drives/wd/my-passport"
+              target="_blank"
+              >https://www.westerndigital.com</a
+            >
+          </li>
+          <li>
+            [8] SanDisk (Western Digital), "SanDisk Extreme USB 3.2 Flash Drive
+            — Product Overview," Western Digital, San Jose, CA, EE. UU., 2024.
+            [En línea]. Disponible en:
+            <a
+              href="https://www.westerndigital.com/products/usb-flash-drives/sandisk/extreme"
+              target="_blank"
+              >https://www.westerndigital.com/sandisk</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
