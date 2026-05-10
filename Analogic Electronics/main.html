@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Características Reales de los Amplificadores Operacionales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* Estilos de Tabla del Usuario (Adaptados a B&W) */
+      .table-main {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        border: 2px solid #000;
+      }
+      .table-main th,
+      .table-main td {
+        border: 1px solid #000;
+        padding: 12px;
+        text-align: center;
+        font-size: 13px;
+      }
+      .table-main th {
+        background-color: #000;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .table-main tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      .param-col {
+        text-align: left !important;
+        font-weight: 700;
+        background-color: #f2f2f2;
+        width: 20%;
+      }
+
+      /* Estilos de Pinout — manejados por Tailwind */
+
+      @media print {
+        .no-print {
+          display: none;
+        }
+      }
+      [id] {
+        scroll-margin-top: 80px;
+      }
+    </style>
+  </head>
+  <body class="p-6 md:p-16 max-w-6xl mx-auto">
+    <!-- Encabezado -->
+    <header class="border-b-8 border-black pb-8 mb-12">
+      <h2 class="text-2xl font-extrabold tracking-tighter uppercase mb-2">
+        Características Reales de los Amplificadores Operacionales
+      </h2>
+      <div
+        class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+      >
+        <p class="text-sm font-medium uppercase tracking-widest text-gray-600">
+          Guzmán Celaya Fernando 4CM3
+        </p>
+        <button
+          onclick="window.print()"
+          class="no-print border-2 border-black px-6 py-2 font-bold hover:bg-black hover:text-white transition-all text-xs uppercase"
+        >
+          Exportar PDF
+        </button>
+      </div>
+    </header>
+
+    <!-- Navegación -->
+    <nav
+      class="no-print sticky top-4 z-50 bg-white/90 backdrop-blur-sm border-2 border-black p-2 mb-12 flex flex-wrap justify-center gap-4"
+    >
+      <button
+        onclick="scrollToId('tabla-general')"
+        class="px-3 py-1 text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all"
+      >
+        Tabla Comparativa
+      </button>
+      <button
+        onclick="scrollToId('lm741')"
+        class="px-3 py-1 text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all"
+      >
+        LM741
+      </button>
+      <button
+        onclick="scrollToId('tl071')"
+        class="px-3 py-1 text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all"
+      >
+        TL071
+      </button>
+      <button
+        onclick="scrollToId('lm308')"
+        class="px-3 py-1 text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all"
+      >
+        LM308
+      </button>
+      <button
+        onclick="scrollToId('lm311')"
+        class="px-3 py-1 text-[10px] font-bold uppercase hover:bg-black hover:text-white transition-all"
+      >
+        LM311
+      </button>
+    </nav>
+
+    <!-- 1. TABLA COMPARATIVA (Diseño del Usuario) -->
+    <section
+      id="tabla-general"
+      class="mb-24"
+    >
+      <h2 class="text-2xl font-black uppercase mb-6 tracking-tight">
+        Tabla Comparativa
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="table-main">
+          <thead>
+            <tr>
+              <th style="text-align: left">Características</th>
+              <th>LM741</th>
+              <th>TL071</th>
+              <th>LM308</th>
+              <th>LM311</th>
+            </tr>
+          </thead>
+          <tbody class="mono">
+            <tr>
+              <td class="param-col">Resistencia Entrada</td>
+              <td>2 M&Omega;</td>
+              <td>10<sup>12</sup> &Omega;</td>
+              <td>40 M&Omega;</td>
+              <td>Alta (~250nA Ib)</td>
+            </tr>
+            <tr>
+              <td class="param-col">Resistencia Salida</td>
+              <td>75 &Omega;</td>
+              <td>~100 &Omega;</td>
+              <td>Baja (L.C.)</td>
+              <td>Colector Abierto</td>
+            </tr>
+            <tr>
+              <td class="param-col">Ganancia Voltaje</td>
+              <td>200 V/mV</td>
+              <td>200 V/mV</td>
+              <td>300 V/mV</td>
+              <td>200 V/mV</td>
+            </tr>
+            <tr>
+              <td class="param-col">Ancho de Banda</td>
+              <td>1.0 MHz</td>
+              <td>3.0 MHz</td>
+              <td>1.0 MHz</td>
+              <td>N/A (200ns Resp)</td>
+            </tr>
+            <tr>
+              <td class="param-col">Voltaje de Offset</td>
+              <td>1.0 - 6.0 mV</td>
+              <td>3.0 - 10 mV</td>
+              <td>2.0 - 7.5 mV</td>
+              <td>2.0 - 7.5 mV</td>
+            </tr>
+            <tr>
+              <td class="param-col">Voltaje de Drift</td>
+              <td>15 &mu;V/&deg;C</td>
+              <td>18 &mu;V/&deg;C</td>
+              <td>6 &mu;V/&deg;C</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td class="param-col">Tiempo Formación (Tf)</td>
+              <td>0.3 &mu;s</td>
+              <td>0.1 &mu;s</td>
+              <td>0.5 &mu;s</td>
+              <td>40 ns</td>
+            </tr>
+            <tr>
+              <td class="param-col">Tiempo Decaimiento (Tr)</td>
+              <td>0.3 &mu;s</td>
+              <td>0.1 &mu;s</td>
+              <td>0.5 &mu;s</td>
+              <td>50 ns</td>
+            </tr>
+            <tr>
+              <td class="param-col">Slew Rate</td>
+              <td>0.5 V/&mu;s</td>
+              <td>13 V/&mu;s</td>
+              <td>0.3 V/&mu;s</td>
+              <td>~30 V/&mu;s</td>
+            </tr>
+            <tr>
+              <td class="param-col">Tipo de tecnología de entrada</td>
+              <td>BJT bipolar</td>
+              <td>JFET + BJT</td>
+              <td>BJT precisión</td>
+              <td>BJT diferencial</td>
+            </tr>
+            <tr>
+              <td class="param-col">Voltaje de alimentación (VS)</td>
+              <td><span>±5 V a ±22 V</span></td>
+              <td><span>±3 V a ±18 V</span></td>
+              <td><span>±2 V a ±20 V</span></td>
+              <td><span>±2.5 V a ±15 V</span></td>
+            </tr>
+            <tr>
+              <td class="param-col">Rango de temperatura operativa</td>
+              <td>0°C a 70°C (LM741C)<br />−55°C a 125°C (LM741)</td>
+              <td>0°C a 70°C</td>
+              <td>0°C a 70°C (LM308)</td>
+              <td>0°C a 70°C (LM311)</td>
+            </tr>
+            <tr>
+              <td class="param-col">Encapsulado estándar</td>
+              <td>DIP-8, TO-99, CDIP-8</td>
+              <td>DIP-8, SOIC-8</td>
+              <td>DIP-8, TO-99, SO-8</td>
+              <td>DIP-8, SOIC-8, TSSOP-8</td>
+            </tr>
+            <tr>
+              <td class="param-col">Corriente de bias de entrada (IB)</td>
+              <td>
+                <span>80 nA</span> (típ)<br /><span
+                  style="font-size: 0.7rem; color: var(--text2)"
+                  >500 nA máx.</span
+                >
+              </td>
+              <td>
+                <span>20 pA</span> (típ)<br /><span
+                  style="font-size: 0.7rem; color: var(--text2)"
+                  >200 pA máx.</span
+                >
+              </td>
+              <td>
+                <span>1.5 nA</span> (típ)<br /><span
+                  style="font-size: 0.7rem; color: var(--text2)"
+                  >7 nA máx.</span
+                >
+              </td>
+              <td>
+                <span>100 nA</span> (típ)<br /><span
+                  style="font-size: 0.7rem; color: var(--text2)"
+                  >250 nA máx.</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td class="param-col">CMRR (Common Mode Rejection Ratio)</td>
+              <td><span>90 dB</span> (típ)</td>
+              <td><span>100 dB</span> (típ)</td>
+              <td><span>100 dB</span> (típ)</td>
+              <td><span>100 dB</span> (típ)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. COMPONENTES INDIVIDUALES Y PINES -->
+    <section class="space-y-32">
+      <h2 class="text-2xl font-black uppercase mb-12 tracking-tight">
+        Análisis Individual y Configuración de Pines
+      </h2>
+
+      <div
+        id="individual-container"
+        class="space-y-32"
+      >
+        <!-- Renderizado Dinámico -->
+      </div>
+    </section>
+
+    <script>
+      const chipsData = [
+        {
+          id: "lm741",
+          name: "LM741",
+          subtitle: "Amplificador Operacional de Propósito General",
+          desc: "Amplificador operacional de propósito general. Industria estándar desde 1968. Entradas BJT. Compensación interna y protección contra cortocircuitos. Ideal para aplicaciones de baja frecuencia.",
+          manufacturer: "Texas Instruments",
+          model: "SNOSC25D · Rev. D",
+          specs: [
+            ["Zin (Impedancia de entrada)", "2 MΩ típ"],
+            ["Zout (Impedancia de salida)", "75 Ω típ"],
+            ["Ganancia lazo abierto (AOL)", "200,000 V/V · 106 dB"],
+            ["Ancho de banda (GBW)", "1 MHz"],
+            ["Voltaje de Offset (VOS)", "2 mV típ / 6 mV máx"],
+            ["Drift de Offset (ΔVos/ΔT)", "~6 µV/°C típ"],
+            ["Rise Time (Tr)", "0.3 µs típ (Unity Gain)"],
+            ["Fall Time (Tf)", "~0.3 µs (simétrico)"],
+            ["Slew Rate (SR)", "0.5 V/µs típ"],
+            ["Overshoot (respuesta escalón)", "5 % típ"],
+            ["Corriente de polarización (IB)", "80 nA típ / 500 nA máx"],
+          ],
+          pins: [
+            ["1", "OFFSET NULL", "Ajuste de offset (pot. externo a VEE)"],
+            ["2", "IN−", "Entrada inversora"],
+            ["3", "IN+", "Entrada no inversora"],
+            ["4", "V−", "Alimentación negativa (VEE)"],
+            ["5", "OFFSET NULL", "Ajuste de offset (pot. externo a VEE)"],
+            ["6", "OUT", "Salida del amplificador"],
+            ["7", "V+", "Alimentación positiva (VCC)"],
+            ["8", "NC", "No conectar (dejar flotante)"],
+          ],
+          svgPins: [
+            "Offset Null",
+            "Inverting -",
+            "Non-Inv +",
+            "V- (Vss)",
+            "Offset Null",
+            "Output",
+            "V+ (Vcc)",
+            "NC",
+          ],
+        },
+        {
+          id: "tl071",
+          name: "TL071",
+          subtitle: "Amplificador de Entrada JFET",
+          desc: "Amplificador operacional de entrada JFET de bajo ruido. Alta impedancia de entrada, alto slew rate. Destaca por su bajo ruido y altísima impedancia de entrada. Perfecto para audio de alta fidelidad.",
+          manufacturer: "Texas Instruments",
+          model: "SLOS080 / TL071",
+          specs: [
+            ["Zin (Impedancia de entrada)", "10¹² Ω típ (JFET)"],
+            ["Zout (Impedancia de salida)", "~100 Ω típ"],
+            ["Ganancia lazo abierto (AOL)", "200,000 V/V · 106 dB"],
+            ["Ancho de banda (GBW)", "3 MHz típ (hasta 4 MHz)"],
+            ["Voltaje de Offset (VOS)", "3 mV típ / 10 mV máx"],
+            ["Drift de Offset (ΔVos/ΔT)", "2 µV/°C típ / 10 µV/°C máx"],
+            ["Rise Time (Tr)", "~50 ns calculado (BW=0.35/Tr)"],
+            ["Fall Time (Tf)", "~50 ns (simétrico)"],
+            ["Slew Rate (SR)", "13–16 V/µs típ"],
+            ["Ruido de entrada (Vn)", "18 nV/√Hz @ 1 kHz"],
+            ["Corriente de polarización (IB)", "20 pA típ / 200 pA máx"],
+          ],
+          pins: [
+            ["1", "OFFSET N1", "Ajuste de offset (null 1)"],
+            ["2", "IN−", "Entrada inversora"],
+            ["3", "IN+", "Entrada no inversora"],
+            ["4", "V−", "Alimentación negativa (VEE)"],
+            ["5", "OFFSET N2", "Ajuste de offset (null 2)"],
+            ["6", "OUT", "Salida del amplificador"],
+            ["7", "V+", "Alimentación positiva (VCC)"],
+            ["8", "NC", "No conectar (dejar flotante)"],
+          ],
+          svgPins: [
+            "Offset Null",
+            "Inverting -",
+            "Non-Inv +",
+            "V- (Vss)",
+            "Offset Null",
+            "Output",
+            "V+ (Vcc)",
+            "NC",
+          ],
+        },
+        {
+          id: "lm308",
+          name: "LM308",
+          subtitle: "Amplificador Operacional de Precisión",
+          desc: "Amplificador operacional de precisión. Muy baja corriente de bias, ideal para altas impedancias de fuente. Famoso por su bajísima corriente de entrada. Requiere un capacitor externo de compensación entre pines 1 y 8.",
+          manufacturer: "National Semiconductor / TI",
+          model: "TL/H/7758",
+          specs: [
+            ["Zin (Impedancia de entrada)", "40 MΩ típ"],
+            ["Zout (Impedancia de salida)", "~100 Ω típ"],
+            ["Ganancia lazo abierto (AOL)", "300,000 V/V · ≥110 dB"],
+            ["Ancho de banda (GBW)", "1 MHz típ / 0.8 MHz mín"],
+            ["Voltaje de Offset (VOS)", "0.3 mV típ / 7.5 mV máx"],
+            ["Drift de Offset (ΔVos/ΔT)", "3 µV/°C típ / 5 µV/°C máx"],
+            ["Rise Time (Tr)", "~0.35 µs calculado"],
+            ["Fall Time (Tf)", "~0.35 µs (simétrico)"],
+            ["Slew Rate (SR)", "0.3 V/µs típ"],
+            ["VS mínimo de operación", "±2 V a ±20 V"],
+            ["Corriente de polarización (IB)", "1.5 nA típ / 7 nA máx"],
+          ],
+          pins: [
+            ["1", "COMP", "Compensación de frecuencia (pin 1)"],
+            ["2", "IN−", "Entrada inversora"],
+            ["3", "IN+", "Entrada no inversora"],
+            ["4", "V−", "Alimentación negativa (VEE)"],
+            ["5", "COMP", "Compensación de frecuencia (pin 5)"],
+            ["6", "OUT", "Salida del amplificador"],
+            ["7", "V+", "Alimentación positiva (VCC)"],
+            ["8", "NC", "No conectar"],
+          ],
+          svgPins: [
+            "Comp A",
+            "Inverting -",
+            "Non-Inv +",
+            "V- (Vss)",
+            "NC",
+            "Output",
+            "V+ (Vcc)",
+            "Comp B",
+          ],
+        },
+        {
+          id: "lm311",
+          name: "LM311",
+          subtitle: "Comparador de Voltaje de Alta Velocidad",
+          desc: "Comparador de voltaje diferencial de alta velocidad. Salida de colector abierto (transistor integrado). Diseñado para operar desde suministros lógicos estándar. Su salida de colector abierto es ideal para manejar cargas externas.",
+          manufacturer: "Texas Instruments",
+          model: "SNOSC09C",
+          specs: [
+            ["Zin (Impedancia de entrada)", "400 kΩ típ"],
+            ["Zout (Impedancia de salida)", "Colector abierto: hasta 50V/50mA"],
+            ["Ganancia lazo abierto (AOL)", "~200,000 V/V (lazo abierto)"],
+            ["Ancho de banda / Tiempo respuesta", "<200 ns (100mV in, 5mV OD)"],
+            ["Voltaje de Offset (VOS)", "2 mV típ / 7.5 mV máx"],
+            ["Drift de Offset (ΔVos/ΔT)", "~5 µV/°C típ"],
+            ["Rise Time (Tr)", "<200 ns (modo comparador)"],
+            ["Fall Time (Tf)", "<200 ns (modo comparador)"],
+            ["Slew Rate (SR)", "7–18 V/µs (modo común)"],
+            ["Compatibilidad de salida", "TTL · MOS · RTL · DTL"],
+            ["Corriente de polarización (IB)", "100 nA típ / 250 nA máx"],
+          ],
+          pins: [
+            [
+              "1",
+              "GND / EMIT",
+              "Emisor del transistor de salida (GND referencia)",
+            ],
+            ["2", "IN+", "Entrada no inversora"],
+            ["3", "IN−", "Entrada inversora"],
+            ["4", "V−", "Alimentación negativa (VEE)"],
+            ["5", "BALANCE", "Balance/Strobe de offset 1"],
+            ["6", "BALANCE", "Balance/Strobe de offset 2"],
+            ["7", "COL OUT", "Colector del transistor de salida (salida)"],
+            ["8", "V+", "Alimentación positiva (VCC)"],
+          ],
+          svgPins: [
+            "GND / Emitter",
+            "Inverting -",
+            "Non-Inv +",
+            "V- (Vss)",
+            "Balance",
+            "Bal / Strobe",
+            "Coll Out",
+            "V+ (Vcc)",
+          ],
+        },
+      ];
+
+      /* ── Pinout SVG inline — limpio y escalable ─────────────────── */
+      function createPinout(pins) {
+        const leftPins = [1, 2, 3, 4]; // top-to-bottom, izquierda
+        const rightPins = [8, 7, 6, 5]; // top-to-bottom, derecha
+        const rowH = 44,
+          startY = 48,
+          chipW = 110,
+          chipH = 200;
+        const totalW = 320,
+          totalH = chipH + startY + 20;
+        const chipX = (totalW - chipW) / 2; // 105
+
+        let rows = "";
+
+        leftPins.forEach((n, i) => {
+          const y = startY + i * rowH;
+          const label = pins[n - 1];
+          rows += `
+            <!-- PIN ${n} IZQUIERDA -->
+            <line x1="${chipX}" y1="${y}" x2="${chipX - 22}" y2="${y}" stroke="#000" stroke-width="2"/>
+            <text x="${chipX - 28}" y="${y - 6}" text-anchor="end"
+                  font-family="IBM Plex Mono,monospace" font-size="9" font-weight="700" fill="#000">${n}</text>
+            <text x="${chipX - 28}" y="${y + 7}" text-anchor="end"
+                  font-family="IBM Plex Mono,monospace" font-size="8" fill="#444">${label}</text>`;
+        });
+
+        rightPins.forEach((n, i) => {
+          const y = startY + i * rowH;
+          const label = pins[n - 1];
+          rows += `
+            <!-- PIN ${n} DERECHA -->
+            <line x1="${chipX + chipW}" y1="${y}" x2="${chipX + chipW + 22}" y2="${y}" stroke="#000" stroke-width="2"/>
+            <text x="${chipX + chipW + 28}" y="${y - 6}" text-anchor="start"
+                  font-family="IBM Plex Mono,monospace" font-size="9" font-weight="700" fill="#000">${n}</text>
+            <text x="${chipX + chipW + 28}" y="${y + 7}" text-anchor="start"
+                  font-family="IBM Plex Mono,monospace" font-size="8" fill="#444">${label}</text>`;
+        });
+
+        return `
+          <svg viewBox="0 0 ${totalW} ${totalH}" width="100%" style="max-width:320px" xmlns="http://www.w3.org/2000/svg">
+            <!-- Cuerpo del chip -->
+            <rect x="${chipX}" y="0" width="${chipW}" height="${chipH}"
+                  fill="white" stroke="black" stroke-width="2" rx="3"/>
+            <!-- Muesca de orientación (semicírculo) -->
+            <path d="M ${chipX + chipW / 2 - 12} 0 A 12 12 0 0 1 ${chipX + chipW / 2 + 12} 0"
+                  fill="white" stroke="black" stroke-width="2"/>
+            <!-- Punto pin 1 -->
+            <circle cx="${chipX + 14}" cy="14" r="3" fill="black"/>
+            <!-- Nombre del IC (centro) -->
+            <text x="${chipX + chipW / 2}" y="${chipH / 2 - 8}"
+                  text-anchor="middle" dominant-baseline="middle"
+                  font-family="IBM Plex Mono,monospace" font-size="13" font-weight="700" fill="#000">DIP-8</text>
+            <text x="${chipX + chipW / 2}" y="${chipH / 2 + 10}"
+                  text-anchor="middle" dominant-baseline="middle"
+                  font-family="IBM Plex Mono,monospace" font-size="9" fill="#666">Top View</text>
+            ${rows}
+          </svg>`;
+      }
+
+      /* ── renderChips — datos como arrays, HTML con Tailwind puro ── */
+      function renderChips() {
+        const container = document.getElementById("individual-container");
+        container.innerHTML = chipsData
+          .map(
+            (chip) => `
+
+          <div id="${chip.id}" class="border-t-4 border-black pt-10">
+
+            <!-- Cabecera -->
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-1 mb-6">
+              <div>
+                <h3 class="text-5xl font-black uppercase leading-none tracking-tight">${chip.name}</h3>
+                <p class="mono text-xs font-bold text-gray-500 mt-1 uppercase tracking-widest">${chip.subtitle}</p>
+              </div>
+              <div class="mono text-xs text-gray-500 sm:text-right">
+                <span class="font-semibold text-black">${chip.manufacturer}</span><br/>
+                <span class="opacity-60">${chip.model}</span>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <p class="text-sm leading-relaxed border-l-4 border-black pl-4 py-1 text-gray-700 mb-8">${chip.desc}</p>
+
+            <!-- Cuerpo: specs + pinout -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+
+              <!-- Izquierda: specs + tabla pines -->
+              <div class="lg:col-span-3 space-y-6">
+
+                <!-- Especificaciones -->
+                <div>
+                  <p class="mono text-[10px] font-black uppercase tracking-widest mb-2">Especificaciones</p>
+                  <div class="border border-black divide-y divide-gray-200">
+                    ${chip.specs
+                      .map(
+                        ([label, value], i) => `
+                      <div class="flex items-baseline justify-between gap-4 px-3 py-2 ${i % 2 === 1 ? "bg-gray-50" : ""}">
+                        <span class="text-xs text-gray-600 shrink-0">${label}</span>
+                        <span class="mono text-xs font-semibold text-right">${value}</span>
+                      </div>`,
+                      )
+                      .join("")}
+                  </div>
+                </div>
+
+                <!-- Tabla de pines -->
+                <div>
+                  <p class="mono text-[10px] font-black uppercase tracking-widest mb-2">Descripción de Pines</p>
+                  <div class="border border-black overflow-hidden">
+                    <table class="w-full text-xs">
+                      <thead>
+                        <tr class="bg-black text-white">
+                          <th class="mono font-bold text-left px-3 py-2 w-8">#</th>
+                          <th class="mono font-bold text-left px-3 py-2 w-28">Nombre</th>
+                          <th class="mono font-bold text-left px-3 py-2">Función</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-gray-200">
+                        ${chip.pins
+                          .map(
+                            ([num, name, desc], i) => `
+                          <tr class="${i % 2 === 1 ? "bg-gray-50" : ""} hover:bg-gray-100 transition-colors">
+                            <td class="mono font-black px-3 py-2 text-center align-middle">${num}</td>
+                            <td class="mono font-semibold px-3 py-2 align-middle">${name}</td>
+                            <td class="px-3 py-2 text-gray-600 align-middle">${desc}</td>
+                          </tr>`,
+                          )
+                          .join("")}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Derecha: pinout SVG -->
+              <div class="lg:col-span-2 flex flex-col items-center pt-6 lg:pt-0 lg:sticky lg:top-24">
+                <p class="mono text-[10px] font-black uppercase tracking-widest mb-4">Vista Superior — Pinout</p>
+                <div class="border border-black p-6 bg-white w-full flex justify-center">
+                  ${createPinout(chip.svgPins)}
+                </div>
+                <p class="mono text-[9px] text-gray-400 mt-2 uppercase tracking-wider">Encapsulado DIP-8 · Top View</p>
+              </div>
+
+            </div>
+          </div>
+
+        `,
+          )
+          .join('<div class="my-16"></div>');
+      }
+
+      function scrollToId(id) {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
+
+      window.onload = renderChips;
+    </script>
+  </body>
+</html>
