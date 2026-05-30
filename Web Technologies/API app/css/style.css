@@ -1,0 +1,430 @@
+/* ===== Reset ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blanco: #ffffff;
+  --fondo: #f5f5f7;
+  --gris-100: #f0f0f2;
+  --gris-200: #e2e2e6;
+  --gris-400: #9e9ea7;
+  --gris-600: #62626a;
+  --gris-900: #1a1a1f;
+  --acento: #2563eb;
+  --exito: #16a34a;
+  --error: #dc2626;
+  --font-display: "Sora", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--fondo);
+  color: var(--gris-900);
+  min-height: 100vh;
+  padding: 0 0 40px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Header ===== */
+.header {
+  text-align: center;
+  padding: 40px 24px 0;
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.header-sub {
+  font-size: 14px;
+  color: var(--gris-400);
+  margin-bottom: 24px;
+}
+
+/* ===== Tabs ===== */
+.tabs {
+  display: inline-flex;
+  background: var(--blanco);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--gris-200);
+}
+
+.tab {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--gris-400);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--gris-600);
+}
+
+.tab.active {
+  background: var(--gris-900);
+  color: var(--blanco);
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== Secciones ===== */
+.seccion {
+  display: none;
+}
+
+.seccion.visible {
+  display: block;
+}
+
+/* ===== Card ===== */
+.card {
+  background: var(--blanco);
+  border-radius: 16px;
+  padding: 32px 28px;
+  border: 1px solid var(--gris-200);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.badge {
+  display: inline-block;
+  background: var(--gris-100);
+  color: var(--gris-400);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.descripcion {
+  font-size: 14px;
+  color: var(--gris-400);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* ===== Botón ===== */
+.btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blanco);
+  background: var(--gris-900);
+  border: none;
+  border-radius: 10px;
+  padding: 11px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* ===== Input group ===== */
+.input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 11px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--gris-900);
+  background: var(--blanco);
+  border: 2px solid var(--gris-200);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input-group input::placeholder {
+  color: var(--gris-400);
+}
+
+.input-group input:focus {
+  border-color: var(--gris-900);
+}
+
+/* ===== Resultado area ===== */
+.resultado-area {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gris-200);
+}
+
+.error-msg {
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--error);
+  text-align: center;
+}
+
+/* ===== NASA ===== */
+#nasa-content h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+#nasa-content img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  border: 1px solid var(--gris-200);
+}
+
+#nasa-content p {
+  font-size: 13px;
+  color: var(--gris-600);
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* ===== CLIMA ===== */
+.clima-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.clima-header img {
+  width: 64px;
+  height: 64px;
+  background: var(--gris-100);
+  border-radius: 12px;
+}
+
+.clima-header h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.clima-header p {
+  font-size: 13px;
+  color: var(--gris-400);
+  text-transform: capitalize;
+}
+
+.clima-temp {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gris-900);
+}
+
+.clima-detalles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.clima-detalle {
+  background: var(--gris-100);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detalle-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gris-400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detalle-valor {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gris-900);
+}
+
+/* ===== POKEMON ===== */
+.pokemon-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.pokemon-header img {
+  width: 96px;
+  height: 96px;
+  background: var(--gris-100);
+  border-radius: 16px;
+  image-rendering: pixelated;
+}
+
+.pokemon-header h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 2px;
+}
+
+.pokemon-id {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gris-400);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.pokemon-tipos {
+  display: flex;
+  gap: 6px;
+}
+
+.tipo-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  color: var(--blanco);
+  text-transform: capitalize;
+}
+
+/* Colores por tipo */
+.tipo-fire { background: #F08030; }
+.tipo-water { background: #6890F0; }
+.tipo-grass { background: #78C850; }
+.tipo-electric { background: #F8D030; color: var(--gris-900); }
+.tipo-ice { background: #98D8D8; color: var(--gris-900); }
+.tipo-fighting { background: #C03028; }
+.tipo-poison { background: #A040A0; }
+.tipo-ground { background: #E0C068; color: var(--gris-900); }
+.tipo-flying { background: #A890F0; }
+.tipo-psychic { background: #F85888; }
+.tipo-bug { background: #A8B820; }
+.tipo-rock { background: #B8A038; }
+.tipo-ghost { background: #705898; }
+.tipo-dragon { background: #7038F8; }
+.tipo-dark { background: #705848; }
+.tipo-steel { background: #B8B8D0; color: var(--gris-900); }
+.tipo-fairy { background: #EE99AC; }
+.tipo-normal { background: #A8A878; }
+
+.pokemon-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pokemon-info-item {
+  background: var(--gris-100);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Stats bars */
+.pokemon-stats {
+  padding-top: 16px;
+  border-top: 1px solid var(--gris-200);
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.stat-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gris-400);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.stat-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: var(--gris-200);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--gris-900);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gris-900);
+  width: 30px;
+  flex-shrink: 0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .header { padding: 28px 16px 0; }
+  .header h1 { font-size: 24px; }
+  .card { padding: 24px 20px; }
+  .clima-temp { font-size: 28px; }
+  .pokemon-header img { width: 72px; height: 72px; }
+  .stat-name { width: 60px; font-size: 10px; }
+}

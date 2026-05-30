@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Api app</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Sora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="./css/style.css"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <h1>API App</h1>
+      <p class="header-sub">Tres APIs en una sola página</p>
+      <nav class="tabs">
+        <button
+          class="tab active"
+          onclick="mostrarSeccion('nasa')"
+        >
+          NASA
+        </button>
+        <button
+          class="tab"
+          onclick="mostrarSeccion('clima')"
+        >
+          Clima
+        </button>
+        <button
+          class="tab"
+          onclick="mostrarSeccion('pokemon')"
+        >
+          Pokémon
+        </button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <!-- Nasa -->
+      <section
+        id="nasa"
+        class="seccion visible"
+      >
+        <div class="card">
+          <h2>Imagen astronómica del día</h2>
+
+          <button
+            class="btn"
+            onclick="getApod()"
+          >
+            Ver imagen del día
+          </button>
+
+          <div
+            id="nasa-content"
+            class="resultado-area"
+            style="display: none"
+          >
+            <h3 id="nasa-title"></h3>
+            <img
+              id="nasa-image"
+              alt="Imagen de la NASA"
+            />
+            <p id="nasa-info"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Clima -->
+      <section
+        id="clima"
+        class="seccion"
+      >
+        <div class="card">
+          <h2>Clima en tu ciudad</h2>
+
+          <div class="input-group">
+            <input
+              type="text"
+              id="ciudad"
+              placeholder="Ej: Ciudad de México"
+              autocomplete="off"
+            />
+            <button
+              class="btn"
+              onclick="getClima()"
+            >
+              Buscar
+            </button>
+          </div>
+
+          <div
+            id="clima-content"
+            class="resultado-area"
+            style="display: none"
+          >
+            <div class="clima-header">
+              <img
+                id="clima-icon"
+                alt="Icono del clima"
+              />
+              <div>
+                <h3 id="clima-ciudad"></h3>
+                <p id="clima-desc"></p>
+              </div>
+              <span
+                id="clima-temp"
+                class="clima-temp"
+              ></span>
+            </div>
+            <div class="clima-detalles">
+              <div class="clima-detalle">
+                <span class="detalle-label">Sensación</span>
+                <span
+                  id="clima-sensacion"
+                  class="detalle-valor"
+                ></span>
+              </div>
+              <div class="clima-detalle">
+                <span class="detalle-label">Humedad</span>
+                <span
+                  id="clima-humedad"
+                  class="detalle-valor"
+                ></span>
+              </div>
+              <div class="clima-detalle">
+                <span class="detalle-label">Viento</span>
+                <span
+                  id="clima-viento"
+                  class="detalle-valor"
+                ></span>
+              </div>
+              <div class="clima-detalle">
+                <span class="detalle-label">Mín / Máx</span>
+                <span
+                  id="clima-minmax"
+                  class="detalle-valor"
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <p
+            id="clima-error"
+            class="error-msg"
+            style="display: none"
+          ></p>
+        </div>
+      </section>
+
+      <!-- Pokemon -->
+      <section
+        id="pokemon"
+        class="seccion"
+      >
+        <div class="card">
+          <h2>Pokédex</h2>
+
+          <div class="input-group">
+            <input
+              type="text"
+              id="pokemon-input"
+              placeholder="Ej: pikachu o 25"
+              autocomplete="off"
+            />
+            <button
+              class="btn"
+              onclick="getPokemon()"
+            >
+              Buscar
+            </button>
+          </div>
+
+          <div
+            id="pokemon-content"
+            class="resultado-area"
+            style="display: none"
+          >
+            <div class="pokemon-header">
+              <img
+                id="pokemon-img"
+                alt="Sprite del Pokémon"
+              />
+              <div>
+                <h3 id="pokemon-nombre"></h3>
+                <span
+                  id="pokemon-id"
+                  class="pokemon-id"
+                ></span>
+                <div
+                  id="pokemon-tipos"
+                  class="pokemon-tipos"
+                ></div>
+              </div>
+            </div>
+            <div class="pokemon-info-grid">
+              <div class="pokemon-info-item">
+                <span class="detalle-label">Altura</span>
+                <span
+                  id="pokemon-altura"
+                  class="detalle-valor"
+                ></span>
+              </div>
+              <div class="pokemon-info-item">
+                <span class="detalle-label">Peso</span>
+                <span
+                  id="pokemon-peso"
+                  class="detalle-valor"
+                ></span>
+              </div>
+              <div class="pokemon-info-item">
+                <span class="detalle-label">Habilidades</span>
+                <span
+                  id="pokemon-habilidades"
+                  class="detalle-valor"
+                ></span>
+              </div>
+              <div class="pokemon-info-item">
+                <span class="detalle-label">Experiencia base</span>
+                <span
+                  id="pokemon-exp"
+                  class="detalle-valor"
+                ></span>
+              </div>
+            </div>
+            <div class="pokemon-stats">
+              <span
+                class="detalle-label"
+                style="margin-bottom: 8px; display: block"
+                >Estadísticas base</span
+              >
+              <div id="pokemon-stats-bars"></div>
+            </div>
+          </div>
+
+          <p
+            id="pokemon-error"
+            class="error-msg"
+            style="display: none"
+          ></p>
+        </div>
+      </section>
+    </main>
+
+    <script src="./js/nasa.js"></script>
+    <script src="./js/clima.js"></script>
+    <script src="./js/pokemon.js"></script>
+    <script src="./js/tabs.js"></script>
+  </body>
+</html>
