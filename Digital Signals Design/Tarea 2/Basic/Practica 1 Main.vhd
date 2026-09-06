@@ -1,16 +1,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity top_comparador is
+entity main is
     port (
         A, B, C, D : in  std_logic_vector(1 downto 0);
         SEL        : in  std_logic_vector(1 downto 0);
         REF        : in  std_logic_vector(1 downto 0);
         SEG        : out std_logic_vector(6 downto 0)
     );
-end entity top_comparador;
+end entity main;
 
-architecture estructural of top_comparador is
+architecture estructural of main is
 
     component mux4x1_2bit is
         port (
