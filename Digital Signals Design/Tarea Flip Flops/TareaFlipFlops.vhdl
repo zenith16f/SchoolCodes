@@ -52,7 +52,7 @@ signal muxOut : STD_LOGIC_VECTOR(1 downto 0);
 
 begin
  -- Flip Flop D
- process(CLK, PRE, CLR)
+ process(CLK, PRE, CLR, D)
  begin
     if PRE = '1' then
         QD <= '1';
@@ -64,7 +64,7 @@ begin
  end process;
 
  -- Flip Flop T
-    process(CLK, PRE, CLR)
+    process(CLK, PRE, CLR, QT, T)
     begin
         if PRE = '1' then
             QT <= '1';
@@ -76,7 +76,7 @@ begin
     end process;
 
     -- Flip Flop JK
-    process (CLK, PRE, CLR)
+    process (CLK, PRE, CLR, J, K, QJK)
     begin
         if PRE = '1' then
             QJK <= '1';
@@ -88,7 +88,7 @@ begin
     end process;
     
     -- Flip Flop SR
-    process (CLK, PRE, CLR)
+    process (CLK, PRE, CLR, S, R, QSR)
     begin
         if PRE = '1' then
             QSR <= '1';
