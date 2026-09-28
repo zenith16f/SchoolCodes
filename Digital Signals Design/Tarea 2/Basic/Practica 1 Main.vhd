@@ -48,4 +48,4 @@ begin
     U3: deco_comp_7seg
         port map (COMP => s_comp, SEG => SEG);
 
-end architecture estructural;
+end architecture;
