@@ -116,3 +116,5 @@ begin
     Q  <= muxOut(1);
     NQ <= muxOut(0);
 end architecture;
+
+--- revisado 27 de sep ------
