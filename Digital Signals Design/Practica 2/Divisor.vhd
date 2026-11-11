@@ -1,0 +1,34 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.STD_LOGIC_UNSIGNED.all;
+
+
+-- Divisor De Frecuencia
+ENTITY DF IS
+PORT (
+    CLK: IN STD_LOGIC;
+    CLKOUT: INOUT STD_LOGIC
+    );
+END ENTITY;
+
+ARCHITECTURE A_DF OF DF IS
+SIGNAL CONTADOR: STD_LOGIC_VECTOR (24 DOWNTO 0):=(OTHERS=>'0');
+CONSTANT DIVISOR: INTEGER:= 27000000;
+BEGIN
+
+PROCESS (CLK)
+BEGIN
+
+IF RISING_EDGE(CLK) THEN
+
+       IF (CONTADOR=DIVISOR) THEN
+      CONTADOR<=(OTHERS =>'0');
+      CLKOUT<= NOT CLKOUT;
+      ELSE
+     CONTADOR<=CONTADOR + 1;
+     END IF;
+END IF;
+
+END PROCESS;
+END A_DF;
